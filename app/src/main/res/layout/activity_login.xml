@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp"
+    tools:context=".Login_Res.LoginActivity">
+    <EditText
+        android:id="@+id/loginEmail"
+        android:layout_width="match_parent"
+        android:hint="Nhập Email"
+        android:layout_margin="12dp"
+        android:background="@null"
+        android:layout_marginTop="50dp"
+        android:inputType="textEmailAddress"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:hint="Nhập Password"
+        android:background="@null"
+        android:layout_margin="12dp"
+
+        android:id="@+id/loginPassword"
+        android:inputType="textPassword"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:layout_width="match_parent"
+        android:text="Login"
+        android:id="@+id/loginbtn"
+        android:layout_margin="12dp"
+
+        android:layout_height="wrap_content"/>
+    <Button
+        android:layout_width="match_parent"
+        android:text="Go To Register"
+        android:id="@+id/gotoRegister"
+        android:layout_margin="12dp"
+
+        android:layout_height="wrap_content"/>
+</androidx.appcompat.widget.LinearLayoutCompat>

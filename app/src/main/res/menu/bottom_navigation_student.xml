@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeStudent"
+        android:title="Trang chủ"
+        android:icon="@drawable/icon_home"/>
+    <item
+        android:id="@+id/person"
+        android:title="Chat"
+        android:icon="@drawable/workout"/>
+    <item
+        android:id="@+id/profileStudent"
+        android:title="Profile"
+        android:icon="@drawable/icon_profile"/>
+</menu>

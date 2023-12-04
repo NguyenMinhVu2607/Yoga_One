@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/cardview_dark_background"
+    android:layout_height="match_parent">
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editTextClassName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tên lớp học"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
+
+        <EditText
+            android:id="@+id/editTextTeacherName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tên giáo viên"
+            android:layout_below="@+id/editTextClassName"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
+
+        <EditText
+            android:id="@+id/editTextLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Vị trí học"
+            android:layout_below="@+id/editTextTeacherName"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
+
+        <!-- Thêm EditText cho Thời gian bắt đầu -->
+        <TextView
+            android:id="@+id/textViewStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextLocation"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="Thời gian bắt đầu"/>
+
+        <TimePicker
+            android:id="@+id/timePickerStartTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewStartTime"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Thêm EditText cho Thời gian kết thúc -->
+        <TextView
+            android:id="@+id/textViewEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/timePickerStartTime"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="Thời gian kết thúc"/>
+
+        <TimePicker
+            android:id="@+id/timePickerEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewEndTime"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"/>
+        <!-- Thêm DatePicker cho Ngày bắt đầu khóa học -->
+        <TextView
+            android:id="@+id/textViewStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/timePickerEndTime"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="Ngày bắt đầu khóa học"/>
+
+        <DatePicker
+            android:id="@+id/datePickerStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewStartDate"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Thêm DatePicker cho Ngày kết thúc khóa học -->
+        <TextView
+            android:id="@+id/textViewEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/datePickerStartDate"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="Ngày kết thúc khóa học"/>
+
+        <DatePicker
+            android:id="@+id/datePickerEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewEndDate"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Thêm Spinner cho Thời gian học trong tuần -->
+        <TextView
+            android:id="@+id/textViewSchedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/timePickerEndTime"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="Thời gian học trong tuần"/>
+
+        <Spinner
+            android:id="@+id/spinnerSchedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewSchedule"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"/>
+
+        <Button
+            android:id="@+id/buttonAddClass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinnerSchedule"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="Thêm lớp học"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</ScrollView>
