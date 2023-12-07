@@ -145,6 +145,8 @@ public class HomeCoachFragment extends Fragment {
                     String className = classInfo.getClassName();
                     String teacherName = classInfo.getTeacherName();
                     String location = classInfo.getLocation();
+                    String startTimeClass = classInfo.getTimeStringStart();
+                    String endTimeClass = classInfo.getTimeStringEnd();
 
                     // Chuyển đổi thời gian sang chuỗi ngày tháng năm
                     String startTimeFormatted = convertMillisToDate(startTimeMillis);
@@ -154,6 +156,7 @@ public class HomeCoachFragment extends Fragment {
                     listViewAdapter.add(
                             className + " - " + teacherName + "\n"
                                     + "Địa điểm: " + location + "\n"
+                                    +  startTimeClass + " - " + endTimeClass + "\n"
                                     + "Ngày bắt đầu: " + startTimeFormatted + "\n"
                                     + "Ngày kết thúc: " + endTimeFormatted
                     );

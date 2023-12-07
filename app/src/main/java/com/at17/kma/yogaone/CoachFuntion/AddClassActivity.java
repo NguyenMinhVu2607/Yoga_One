@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.at17.kma.yogaone.MainActivity;
 import com.at17.kma.yogaone.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -66,6 +67,17 @@ public class AddClassActivity extends AppCompatActivity {
                 int endMinute = endTimePicker.getMinute();
                 String selectedDay = scheduleSpinner.getSelectedItem().toString();
 
+
+                //Set giờ và phút
+                // Lấy giờ và phút từ TimePicker
+                int hourEnd = endTimePicker.getHour();
+                int minuteEnd = endTimePicker.getMinute();
+                int hourStart = startTimePicker.getHour();
+                int minuteStart = startTimePicker.getMinute();
+
+                // Chuyển đổi thành chuỗi
+                String timeStringEnd = String.format("%02d:%02d", hourEnd, minuteEnd);
+                String timeStringStart = String.format("%02d:%02d", hourStart, minuteStart);
                 // Lấy thông tin từ DatePicker
                 int startYear = startDatePicker.getYear();
                 int startMonth = startDatePicker.getMonth();
@@ -75,7 +87,7 @@ public class AddClassActivity extends AppCompatActivity {
                 int endDay = endDatePicker.getDayOfMonth();
 
                 // Thêm thông tin lớp học vào Firestore
-                addClassToFirestore(className, teacherName, location, startYear, startMonth, startDay, startHour, startMinute, endYear, endMonth, endDay, endHour, endMinute, selectedDay);
+                addClassToFirestore(className, teacherName, location,timeStringEnd,timeStringStart, startYear, startMonth, startDay, startHour, startMinute, endYear, endMonth, endDay, endHour, endMinute, selectedDay);
             }
         });
     }
@@ -99,7 +111,7 @@ public class AddClassActivity extends AppCompatActivity {
         scheduleSpinner.setAdapter(adapter);
     }
 
-    private void addClassToFirestore(String className, String teacherName, String location,
+    private void addClassToFirestore(String className, String teacherName, String location,String timeStringEnd,String timeStringStart,
                                      int startYear, int startMonth, int startDay, int startHour, int startMinute,
                                      int endYear, int endMonth, int endDay, int endHour, int endMinute, String selectedDay) {
         // Khởi tạo Firebase Firestore
@@ -110,6 +122,8 @@ public class AddClassActivity extends AppCompatActivity {
         classData.put("className", className);
         classData.put("teacherName", teacherName);
         classData.put("location", location);
+        classData.put("timeStringEnd", timeStringEnd);
+        classData.put("timeStringStart", timeStringStart);
         classData.put("startDay", getDateTimeInMillis(startYear, startMonth, startDay, 0, 0));
         classData.put("endDay", getDateTimeInMillis(endYear, endMonth, endDay, 0, 0));
 

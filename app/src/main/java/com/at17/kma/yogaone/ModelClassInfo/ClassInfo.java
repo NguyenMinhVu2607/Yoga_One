@@ -7,22 +7,25 @@ public class ClassInfo {
     private long startDay;
     private long endDay;
     private String dayOfWeek;
+    private String timeStringEnd;
+    private String timeStringStart;
 
     // Constructors
     public ClassInfo() {
         // Default constructor required for Firestore
     }
 
-    public ClassInfo(String className, String teacherName, String location, long startDay, long endDay, String dayOfWeek) {
+    public ClassInfo(String className, String teacherName, String location, long startDay, long endDay, String dayOfWeek, String timeStringEnd, String timeStringStart) {
         this.className = className;
         this.teacherName = teacherName;
         this.location = location;
         this.startDay = startDay;
         this.endDay = endDay;
         this.dayOfWeek = dayOfWeek;
+        this.timeStringEnd = timeStringEnd;
+        this.timeStringStart = timeStringStart;
     }
 
-    // Getters and setters
     public String getClassName() {
         return className;
     }
@@ -69,5 +72,21 @@ public class ClassInfo {
 
     public void setDayOfWeek(String dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
+    }
+
+    public String getTimeStringEnd() {
+        return timeStringEnd;
+    }
+
+    public void setTimeStringEnd(String timeStringEnd) {
+        this.timeStringEnd = timeStringEnd;
+    }
+
+    public String getTimeStringStart() {
+        return timeStringStart;
+    }
+
+    public void setTimeStringStart(String timeStringStart) {
+        this.timeStringStart = timeStringStart;
     }
 }
