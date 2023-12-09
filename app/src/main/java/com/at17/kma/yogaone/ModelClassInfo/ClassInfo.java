@@ -1,12 +1,16 @@
 package com.at17.kma.yogaone.ModelClassInfo;
 
+import java.util.List;
+
 public class ClassInfo {
+    private String documentId;  // Trường mới để lưu trữ ID
+
     private String className;
-    private String teacherName;
+    private List<String> dayOfWeek;
+    private long endDay;
     private String location;
     private long startDay;
-    private long endDay;
-    private String dayOfWeek;
+    private String teacherName;
     private String timeStringEnd;
     private String timeStringStart;
 
@@ -15,15 +19,24 @@ public class ClassInfo {
         // Default constructor required for Firestore
     }
 
-    public ClassInfo(String className, String teacherName, String location, long startDay, long endDay, String dayOfWeek, String timeStringEnd, String timeStringStart) {
+    public ClassInfo(String documentId, String className, List<String> dayOfWeek, long endDay, String location, long startDay, String teacherName, String timeStringEnd, String timeStringStart) {
+        this.documentId = documentId;
         this.className = className;
-        this.teacherName = teacherName;
+        this.dayOfWeek = dayOfWeek;
+        this.endDay = endDay;
         this.location = location;
         this.startDay = startDay;
-        this.endDay = endDay;
-        this.dayOfWeek = dayOfWeek;
+        this.teacherName = teacherName;
         this.timeStringEnd = timeStringEnd;
         this.timeStringStart = timeStringStart;
+    }
+
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 
     public String getClassName() {
@@ -34,12 +47,20 @@ public class ClassInfo {
         this.className = className;
     }
 
-    public String getTeacherName() {
-        return teacherName;
+    public List<String> getDayOfWeek() {
+        return dayOfWeek;
     }
 
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
+    public void setDayOfWeek(List<String> dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public long getEndDay() {
+        return endDay;
+    }
+
+    public void setEndDay(long endDay) {
+        this.endDay = endDay;
     }
 
     public String getLocation() {
@@ -58,20 +79,12 @@ public class ClassInfo {
         this.startDay = startDay;
     }
 
-    public long getEndDay() {
-        return endDay;
+    public String getTeacherName() {
+        return teacherName;
     }
 
-    public void setEndDay(long endDay) {
-        this.endDay = endDay;
-    }
-
-    public String getDayOfWeek() {
-        return dayOfWeek;
-    }
-
-    public void setDayOfWeek(String dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
     public String getTimeStringEnd() {

@@ -117,13 +117,57 @@
             android:layout_marginLeft="16dp"
             android:text="Thời gian học trong tuần"/>
 
-        <Spinner
-            android:id="@+id/spinnerSchedule"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewSchedule"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"/>
+            android:orientation="vertical">
+            <CheckBox
+                android:id="@+id/checkboxMonday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thứ 2"/>
+
+            <CheckBox
+                android:id="@+id/checkboxTuesday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thứ 3"/>
+            <CheckBox
+                android:id="@+id/checkboxWednesday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thứ 4"/>
+
+            <CheckBox
+                android:id="@+id/checkboxThursday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thứ 5"/>
+            <CheckBox
+                android:id="@+id/checkboxFriday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thứ 6"/>
+
+            <CheckBox
+                android:id="@+id/checkboxSaturday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thứ 7"/>
+            <CheckBox
+                android:id="@+id/checkboxSunday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chủ Nhật"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+<!--        <Spinner-->
+<!--            android:id="@+id/spinnerSchedule"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/textViewSchedule"-->
+<!--            android:layout_marginLeft="16dp"-->
+<!--            android:layout_marginTop="8dp"/>-->
 
         <Button
             android:id="@+id/buttonAddClass"

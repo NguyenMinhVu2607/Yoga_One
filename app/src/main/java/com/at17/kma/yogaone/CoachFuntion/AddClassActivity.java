@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -31,8 +33,10 @@ public class AddClassActivity extends AppCompatActivity {
     private EditText classNameEditText, teacherNameEditText, locationEditText;
     private TimePicker startTimePicker, endTimePicker;
     private DatePicker startDatePicker, endDatePicker;
-    private Spinner scheduleSpinner;
+    private CheckBox checkboxMonday,checkboxTuesday,checkboxWednesday,checkboxThursday,checkboxFriday,checkboxSaturday,checkboxSunday;
+//    private Spinner scheduleSpinner;
     private Button addButton;
+    private List<CheckBox> dayCheckBoxes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +51,30 @@ public class AddClassActivity extends AppCompatActivity {
         endTimePicker = findViewById(R.id.timePickerEndTime);
         startDatePicker = findViewById(R.id.datePickerStartDate);
         endDatePicker = findViewById(R.id.datePickerEndDate);
-        scheduleSpinner = findViewById(R.id.spinnerSchedule);
+//        scheduleSpinner = findViewById(R.id.spinnerSchedule);
         addButton = findViewById(R.id.buttonAddClass);
+        //
+
+
+        checkboxMonday = findViewById(R.id.checkboxMonday);
+        checkboxTuesday = findViewById(R.id.checkboxTuesday);
+        checkboxWednesday = findViewById(R.id.checkboxWednesday);
+        checkboxThursday = findViewById(R.id.checkboxThursday);
+        checkboxFriday = findViewById(R.id.checkboxFriday);
+        checkboxSaturday = findViewById(R.id.checkboxSaturday);
+        checkboxSunday = findViewById(R.id.checkboxSunday);
+
+        dayCheckBoxes = new ArrayList<>();
+        dayCheckBoxes.add(checkboxMonday);
+        dayCheckBoxes.add(checkboxTuesday);
+        dayCheckBoxes.add(checkboxWednesday);
+        dayCheckBoxes.add(checkboxThursday);
+        dayCheckBoxes.add(checkboxFriday);
+        dayCheckBoxes.add(checkboxSaturday);
+        dayCheckBoxes.add(checkboxSunday);
 
         // Thiết lập Spinner cho thời gian học trong tuần
-        setupScheduleSpinner();
+//        setupScheduleSpinner();
 
         // Xử lý sự kiện khi nhấn nút "Thêm lớp học"
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +88,7 @@ public class AddClassActivity extends AppCompatActivity {
                 int startMinute = startTimePicker.getMinute();
                 int endHour = endTimePicker.getHour();
                 int endMinute = endTimePicker.getMinute();
-                String selectedDay = scheduleSpinner.getSelectedItem().toString();
+//                String selectedDay = scheduleSpinner.getSelectedItem().toString();
 
 
                 //Set giờ và phút
@@ -86,8 +109,11 @@ public class AddClassActivity extends AppCompatActivity {
                 int endMonth = endDatePicker.getMonth();
                 int endDay = endDatePicker.getDayOfMonth();
 
+                //
+                List<String> selectedDays = getSelectedDays();
+                Log.d("TAG","selectedDays :"+selectedDays) ;
                 // Thêm thông tin lớp học vào Firestore
-                addClassToFirestore(className, teacherName, location,timeStringEnd,timeStringStart, startYear, startMonth, startDay, startHour, startMinute, endYear, endMonth, endDay, endHour, endMinute, selectedDay);
+                addClassToFirestore(className, teacherName, location,timeStringEnd,timeStringStart, startYear, startMonth, startDay, startHour, startMinute, endYear, endMonth, endDay, endHour, endMinute, selectedDays);
             }
         });
     }
@@ -108,12 +134,27 @@ public class AddClassActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Thiết lập ArrayAdapter cho Spinner
-        scheduleSpinner.setAdapter(adapter);
+//        scheduleSpinner.setAdapter(adapter);
     }
+    private List<String> getSelectedDays() {
+        List<String> selectedDays = new ArrayList<>();
+        for (CheckBox checkBox : dayCheckBoxes) {
+            Log.d("CheckBox", "CheckBox Text: " + checkBox.getText() + ", isChecked: " + checkBox.isChecked());
+            if (checkBox.isChecked()) {
+                String dayText = checkBox.getText().toString().trim();
+                if (!dayText.isEmpty()) {
+                    selectedDays.add(dayText);
+                }
+            }
+        }
+        return selectedDays;
+    }
+
+
 
     private void addClassToFirestore(String className, String teacherName, String location,String timeStringEnd,String timeStringStart,
                                      int startYear, int startMonth, int startDay, int startHour, int startMinute,
-                                     int endYear, int endMonth, int endDay, int endHour, int endMinute, String selectedDay) {
+                                     int endYear, int endMonth, int endDay, int endHour, int endMinute, List<String>  selectedDays) {
         // Khởi tạo Firebase Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -127,7 +168,7 @@ public class AddClassActivity extends AppCompatActivity {
         classData.put("startDay", getDateTimeInMillis(startYear, startMonth, startDay, 0, 0));
         classData.put("endDay", getDateTimeInMillis(endYear, endMonth, endDay, 0, 0));
 
-        classData.put("dayOfWeek", selectedDay);
+        classData.put("dayOfWeek", selectedDays);
 //        Date date = new Date(getDateTimeInMillis(startYear, startMonth, startDay, 0, 0));
 //
 //        // Sử dụng SimpleDateFormat để định dạng ngày tháng năm
@@ -143,6 +184,7 @@ public class AddClassActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+
                         Toast.makeText(AddClassActivity.this, "Lớp học đã được thêm thành công!", Toast.LENGTH_SHORT).show();
                         finish();
                     }
