@@ -19,6 +19,8 @@ import com.at17.kma.yogaone.MainActivity;
 import com.at17.kma.yogaone.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -34,15 +36,15 @@ public class AddClassActivity extends AppCompatActivity {
     private TimePicker startTimePicker, endTimePicker;
     private DatePicker startDatePicker, endDatePicker;
     private CheckBox checkboxMonday,checkboxTuesday,checkboxWednesday,checkboxThursday,checkboxFriday,checkboxSaturday,checkboxSunday;
-//    private Spinner scheduleSpinner;
     private Button addButton;
     private List<CheckBox> dayCheckBoxes;
-
+    private FirebaseAuth auth;
+    private  String name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_class);
-
+        auth =FirebaseAuth.getInstance();
         // Ánh xạ các thành phần từ layout
         classNameEditText = findViewById(R.id.editTextClassName);
         teacherNameEditText = findViewById(R.id.editTextTeacherName);
@@ -80,9 +82,16 @@ public class AddClassActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    // Name, email address, and profile photo Url
+                    name = user.getDisplayName();
+                    Log.d("name",""+name);
+
+                }
                 // Lấy thông tin từ các thành phần nhập liệu
                 String className = classNameEditText.getText().toString();
-                String teacherName = teacherNameEditText.getText().toString();
+                String teacherName = name;
                 String location = locationEditText.getText().toString();
                 int startHour = startTimePicker.getHour();
                 int startMinute = startTimePicker.getMinute();

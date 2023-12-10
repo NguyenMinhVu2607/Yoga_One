@@ -6,6 +6,9 @@
     android:background="@color/white"
     tools:context=".Fragment_Coach.ProfileCoachFragment">
 
-
+<Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/btnLogout"/>
 
 </FrameLayout>

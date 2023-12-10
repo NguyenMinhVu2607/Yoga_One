@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- your_custom_layout_for_each_item.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <!-- Customize this layout based on your requirements -->
+    <TextView
+        android:id="@+id/textClassName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Class Name" />
+
+    <!-- Add more views for other information -->
+
+</LinearLayout>

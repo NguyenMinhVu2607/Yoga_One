@@ -23,6 +23,7 @@
             android:hint="Tên giáo viên"
             android:layout_below="@+id/editTextClassName"
             android:layout_marginTop="16dp"
+            android:visibility="gone"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"/>
 

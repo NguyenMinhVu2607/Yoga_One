@@ -1,6 +1,7 @@
 package com.at17.kma.yogaone.Fragment_Coach;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.ak.ColoredDate;
 import com.ak.KalendarView;
 import com.at17.kma.yogaone.Adapter.ClassAdapter;
+import com.at17.kma.yogaone.DetailClassActivity;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.at17.kma.yogaone.R;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -59,9 +61,19 @@ public class HomeCoachFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getContext(), ""+i, Toast.LENGTH_SHORT).show();
+                // Lấy đối tượng ClassInfo tương ứng với vị trí i
+//                ClassInfo selectedClass = classList.get(i);
+//
+//                // Lấy ID từ đối tượng ClassInfo
+//                String classId = selectedClass.getDocumentId(); // Giả sử có phương thức getId() trong ClassInfo của bạn
+//
+//                // Chuyển sang DetailActivity với ID
+//                Intent intent = new Intent(getContext(), DetailClassActivity.class);
+//                intent.putExtra("idClass", classId);
+//                startActivity(intent);
             }
         });
+
         // Xử lý sự kiện khi người dùng chọn ngày trên KalendarView
         kalendarView.setDateSelector(selectedDate -> {
             Log.d("DateSel", selectedDate.toString());

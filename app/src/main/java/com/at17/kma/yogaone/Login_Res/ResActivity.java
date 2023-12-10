@@ -2,6 +2,7 @@ package com.at17.kma.yogaone.Login_Res;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -58,34 +60,55 @@ public class ResActivity extends AppCompatActivity {
                 CheckField(phone);
 
                 // Create Account FireBase
-                if(valid){
-                    fAuth.createUserWithEmailAndPassword(email.getText().toString().trim(),password.getText().toString().trim())
-                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-                            FirebaseUser firebaseUser = fAuth.getCurrentUser();
-                            Toast.makeText(ResActivity.this, "Account Create", Toast.LENGTH_SHORT).show();
-                            DocumentReference documentReference = fFirestore.collection("Users").document(firebaseUser.getUid());
-                            Map<String,Object> userInfo =new HashMap<>();
-                            userInfo.put("FullName",fullName.getText().toString());
-                            userInfo.put("UserMail",email.getText().toString());
-                            userInfo.put("PhoneNumber",phone.getText().toString());
+                if (valid) {
+                    fAuth.createUserWithEmailAndPassword(
+                                    email.getText().toString().trim(),
+                                    password.getText().toString().trim())
+                            .addOnSuccessListener(authResult -> {
+                                FirebaseUser firebaseUser = fAuth.getCurrentUser();
+                                Toast.makeText(ResActivity.this, "Account Created", Toast.LENGTH_SHORT).show();
 
-                            //Specify if the user is coach
-                            userInfo.put("isUser",1);
-                            //
-                            documentReference.set(userInfo);
-                            startActivity(new Intent(ResActivity.this, LoginActivity.class));
-                            finish();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(ResActivity.this, "Error Create Account", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                                // Thêm thông tin người dùng vào Firestore
+                                DocumentReference documentReference = fFirestore.collection("Users").document(firebaseUser.getUid());
+                                Map<String, Object> userInfo = new HashMap<>();
+                                userInfo.put("FullName", fullName.getText().toString().trim());
+                                userInfo.put("UserMail", email.getText().toString().trim());
+                                userInfo.put("PhoneNumber", phone.getText().toString().trim());
 
+                                // Specify if the user is a coach
+                                userInfo.put("isUser", "1");
+                                //
+
+                                // Thêm tên người dùng vào FirebaseUser
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(fullName.getText().toString().trim())
+                                        .build();
+
+                                firebaseUser.updateProfile(profileUpdates)
+                                        .addOnCompleteListener(task -> {
+                                            if (task.isSuccessful()) {
+                                                Log.d("TAG", "User profile updated.");
+                                            } else {
+                                                Log.e("TAG", "Error updating user profile.", task.getException());
+                                            }
+                                        });
+
+                                documentReference.set(userInfo)
+                                        .addOnSuccessListener(aVoid -> {
+                                            startActivity(new Intent(ResActivity.this, LoginActivity.class));
+                                            finish();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            // Xử lý lỗi khi thêm thông tin người dùng vào Firestore
+                                            Log.e("TAG", "Error adding user info to Firestore.", e);
+                                        });
+                            })
+                            .addOnFailureListener(e -> {
+                                // Xử lý lỗi tạo tài khoản
+                                Log.e("TAG", "Error creating user.", e);
+                            });
                 }
+
             }
         });
     }
