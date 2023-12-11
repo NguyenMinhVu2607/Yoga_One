@@ -39,7 +39,7 @@ public class AddClassActivity extends AppCompatActivity {
     private Button addButton;
     private List<CheckBox> dayCheckBoxes;
     private FirebaseAuth auth;
-    private  String name;
+    private  String name,teacherUID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,12 +86,14 @@ public class AddClassActivity extends AppCompatActivity {
                 if (user != null) {
                     // Name, email address, and profile photo Url
                     name = user.getDisplayName();
-                    Log.d("name",""+name);
+                    teacherUID = user.getUid();
+
 
                 }
                 // Lấy thông tin từ các thành phần nhập liệu
                 String className = classNameEditText.getText().toString();
                 String teacherName = name;
+                String teacherId = teacherUID;
                 String location = locationEditText.getText().toString();
                 int startHour = startTimePicker.getHour();
                 int startMinute = startTimePicker.getMinute();
@@ -122,7 +124,7 @@ public class AddClassActivity extends AppCompatActivity {
                 List<String> selectedDays = getSelectedDays();
                 Log.d("TAG","selectedDays :"+selectedDays) ;
                 // Thêm thông tin lớp học vào Firestore
-                addClassToFirestore(className, teacherName, location,timeStringEnd,timeStringStart, startYear, startMonth, startDay, startHour, startMinute, endYear, endMonth, endDay, endHour, endMinute, selectedDays);
+                addClassToFirestore(teacherId,className, teacherName, location,timeStringEnd,timeStringStart, startYear, startMonth, startDay, startHour, startMinute, endYear, endMonth, endDay, endHour, endMinute, selectedDays);
             }
         });
     }
@@ -161,7 +163,7 @@ public class AddClassActivity extends AppCompatActivity {
 
 
 
-    private void addClassToFirestore(String className, String teacherName, String location,String timeStringEnd,String timeStringStart,
+    private void addClassToFirestore(String teacherId,String className, String teacherName, String location,String timeStringEnd,String timeStringStart,
                                      int startYear, int startMonth, int startDay, int startHour, int startMinute,
                                      int endYear, int endMonth, int endDay, int endHour, int endMinute, List<String>  selectedDays) {
         // Khởi tạo Firebase Firestore
@@ -171,6 +173,7 @@ public class AddClassActivity extends AppCompatActivity {
         Map<String, Object> classData = new HashMap<>();
         classData.put("className", className);
         classData.put("teacherName", teacherName);
+        classData.put("teacherId", teacherId);
         classData.put("location", location);
         classData.put("timeStringEnd", timeStringEnd);
         classData.put("timeStringStart", timeStringStart);
@@ -178,22 +181,18 @@ public class AddClassActivity extends AppCompatActivity {
         classData.put("endDay", getDateTimeInMillis(endYear, endMonth, endDay, 0, 0));
 
         classData.put("dayOfWeek", selectedDays);
-//        Date date = new Date(getDateTimeInMillis(startYear, startMonth, startDay, 0, 0));
-//
-//        // Sử dụng SimpleDateFormat để định dạng ngày tháng năm
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-//
-//        // Chuyển đối thành chuỗi định dạng và hiển thị trong TextView hoặc nơi khác
-//        String formattedDate = sdf.format(date);
-//
-//        Toast.makeText(this, formattedDate, Toast.LENGTH_SHORT).show();
+
+
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String userId = (currentUser != null) ? currentUser.getUid() : "";
+
         // Thêm dữ liệu vào Firestore
         db.collection("classes")
-                .add(classData)
+                .add(classData)  // Sử dụng add để Firestore tự tạo ID mới cho tài liệu
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-
                         Toast.makeText(AddClassActivity.this, "Lớp học đã được thêm thành công!", Toast.LENGTH_SHORT).show();
                         finish();
                     }

@@ -37,7 +37,13 @@ public class DetailClassActivity extends AppCompatActivity {
             String classId = intent.getStringExtra("idClass");
             // Gọi hàm để lấy thông tin từ Firestore
             loadClassInfoFromFirestore(classId);
-        } else {
+        } else if (intent != null && intent.hasExtra("idClass1")) {
+            String classId = intent.getStringExtra("idClass1");
+            Log.d("idClass1",""+classId);
+
+            loadClassInfoFromFirestore(classId);
+        }
+        else {
             // Xử lý khi không có dữ liệu từ Intent
             Toast.makeText(this, "Không có thông tin lớp học", Toast.LENGTH_SHORT).show();
             finish();

@@ -24,6 +24,8 @@ import com.at17.kma.yogaone.Adapter.ClassAdapter;
 import com.at17.kma.yogaone.DetailClassActivity;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.at17.kma.yogaone.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -41,6 +43,8 @@ public class HomeCoachFragment extends Fragment {
     private List<ClassInfo> classList;
     private ArrayAdapter<String> listViewAdapter;
     private SparseBooleanArray markedDays;
+    private String currentUserId;  // Thêm biến để lưu ID của người dùng hiện tại
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +53,10 @@ public class HomeCoachFragment extends Fragment {
         kalendarView = view.findViewById(R.id.kalendarView);
         listView = view.findViewById(R.id.listViewClasses);
         kalendarView.setInitialSelectedDate(new Date());
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            currentUserId = currentUser.getUid();
+        }
 
 
         // Khởi tạo danh sách lớp học và biểu đồ
@@ -101,10 +109,14 @@ public class HomeCoachFragment extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             // Chuyển đổi dữ liệu từ Firestore thành đối tượng ClassInfo
                             ClassInfo classInfo = document.toObject(ClassInfo.class);
-                            classList.add(classInfo);
 
-                            // Đánh dấu ngày có lịch học
-                            markDaysWithClasses();
+                            // Kiểm tra xem lớp học có trùng với ID của người dùng không
+                            if (classInfo.getTeacherId().equals(currentUserId)) {
+                                classList.add(classInfo);
+
+                                // Đánh dấu ngày có lịch học
+                                markDaysWithClasses();
+                            }
                         }
                         // Hiển thị lịch và danh sách lớp học cho ngày mặc định (hiện tại)
                         displayClassesForSelectedDay(
@@ -117,6 +129,7 @@ public class HomeCoachFragment extends Fragment {
                     }
                 });
     }
+
     private void markDaysWithClasses() {
         List<ColoredDate> datesColors = new ArrayList<>();
 
@@ -207,53 +220,6 @@ public class HomeCoachFragment extends Fragment {
         calendar.setTimeInMillis(milliseconds);
         return sdf.format(calendar.getTime());
     }
-
-//    private boolean isClassWithinSelectedTime(ClassInfo classInfo, int year, int month, int dayOfMonth) {
-//        // Lấy danh sách các ngày trong tuần mà lớp học diễn ra
-//        List<String> daysOfWeek = classInfo.getDayOfWeek();
-//
-//        // Tạo Calendar cho ngày đã chọn
-//        Calendar selectedDayCalendar = Calendar.getInstance();
-//        selectedDayCalendar.set(year, month, dayOfMonth, 0, 0, 0);
-//
-//        // Kiểm tra xem ngày đã chọn có trùng với bất kỳ ngày nào trong danh sách ngày của lớp học không
-//        for (String classDayOfWeek : daysOfWeek) {
-//            // Chuyển đổi classDayOfWeek thành ngày của tuần trong Calendar
-//            int classDay = convertDayOfWeek(classDayOfWeek);
-//
-//            // Kiểm tra xem ngày đã chọn có trùng với ngày của lớp học không
-//            if (selectedDayCalendar.get(Calendar.DAY_OF_WEEK) == classDay) {
-//                // Kiểm tra xem thời gian đã chọn có nằm trong khoảng thời gian của lớp học không
-//                long startTime = classInfo.getStartDay();
-//                long endTime = classInfo.getEndDay();
-//                return selectedDayCalendar.getTimeInMillis() >= startTime && selectedDayCalendar.getTimeInMillis() <= endTime;
-//            }
-//        }
-//
-//        return false;
-//    }
-
-//    // Phương thức hỗ trợ để chuyển đổi ngày trong tuần (dưới dạng chuỗi) thành ngày của tuần trong Calendar
-//    private int convertDayOfWeek(String dayOfWeek) {
-//        switch (dayOfWeek) {
-//            case "Chủ Nhật":
-//                return Calendar.SUNDAY;
-//            case "Thứ 2":
-//                return Calendar.MONDAY;
-//            case "Thứ 3":
-//                return Calendar.TUESDAY;
-//            case "Thứ 4":
-//                return Calendar.WEDNESDAY;
-//            case "Thứ 5":
-//                return Calendar.THURSDAY;
-//            case "Thứ 6":
-//                return Calendar.FRIDAY;
-//            case "Thứ 7":
-//                return Calendar.SATURDAY;
-//            default:
-//                return -1; // Xử lý trường hợp ngày không hợp lệ
-//        }
-//    }
 
     // Phương thức để lấy dayOfWeek từ ngày đã chọn
     private String getDayOfWeek(int year, int month, int dayOfMonth) {

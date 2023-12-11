@@ -59,7 +59,11 @@ public class ManageCourseFragment extends Fragment {
 
     private void loadDataFromFirebase() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String currentUserId = auth.getCurrentUser().getUid(); // Lấy ID của người đăng nhập
+
         db.collection("classes")
+                .whereEqualTo("teacherId", currentUserId) // Chỉ lấy các lớp học của giáo viên đang đăng nhập
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
