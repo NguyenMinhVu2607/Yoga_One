@@ -1,6 +1,8 @@
 package com.at17.kma.yogaone;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,11 +11,17 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.at17.kma.yogaone.Adapter.StudentRequestAdapter;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
+import com.at17.kma.yogaone.ModelClassInfo.StudentRequestInfo;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DetailClassActivityCoach extends AppCompatActivity {
@@ -22,6 +30,8 @@ public class DetailClassActivityCoach extends AppCompatActivity {
     private TextView textDayOfWeek;
     private TextView textLocation;
     private TextView textteacherName;
+    private RecyclerView recyclerViewStudents;
+    private StudentRequestAdapter studentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,24 +43,27 @@ public class DetailClassActivityCoach extends AppCompatActivity {
         textDayOfWeek = findViewById(R.id.textDayOfWeek);
         textLocation = findViewById(R.id.textLocation);
         textteacherName = findViewById(R.id.textteacherName);
-
+        recyclerViewStudents = findViewById(R.id.recyclerViewStudents);
+//        displayStudentRequests();
+        // Lấy thông tin từ Intent
         // Lấy thông tin từ Intent
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("idClass")) {
             String classId = intent.getStringExtra("idClass");
             // Gọi hàm để lấy thông tin từ Firestore
+            loadStudentRequests(classId);
             loadClassInfoFromFirestore(classId);
         } else if (intent != null && intent.hasExtra("idClass1")) {
             String classId = intent.getStringExtra("idClass1");
-            Log.d("idClass1",""+classId);
-
+            Log.d("idClass1", "" + classId);
             loadClassInfoFromFirestore(classId);
-        }
-        else {
+            loadStudentRequests(classId);
+        } else {
             // Xử lý khi không có dữ liệu từ Intent
             Toast.makeText(this, "Không có thông tin lớp học", Toast.LENGTH_SHORT).show();
             finish();
         }
+
     }
 
     private void loadClassInfoFromFirestore(String classId) {
@@ -88,6 +101,114 @@ public class DetailClassActivityCoach extends AppCompatActivity {
         // Thêm mã code để hiển thị các thông tin khác nếu cần
     }
 
-    // Thêm
+    private void loadStudentRequests(String classId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference classRef = db.collection("UserClasses").document(classId);
+
+        classRef.get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        // Parse danh sách yêu cầu từ Firestore
+                        List<StudentRequestInfo> studentRequests = parseStudentRequests(documentSnapshot);
+                        // Hiển thị danh sách yêu cầu trên giao diện
+                        displayStudentRequests(studentRequests, classId);
+                    } else {
+                        // Xử lý khi không có dữ liệu
+                        Toast.makeText(this, "Không tìm thấy thông tin lớp học", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Xử lý khi đọc dữ liệu thất bại
+                    Toast.makeText(this, "Lỗi khi đọc dữ liệu từ Firestore", Toast.LENGTH_SHORT).show();
+                    Log.e("Firestore", "Error reading class info", e);
+                    finish();
+                });
+    }
+
+    private void displayStudentRequests(List<StudentRequestInfo> studentRequests, String classId) {
+        // Hiển thị danh sách yêu cầu trên giao diện sử dụng StudentRequestAdapter
+        studentAdapter = new StudentRequestAdapter(studentRequests, new StudentRequestAdapter.OnItemClickListener() {
+            @Override
+            public void onConfirmClick(int position) {
+                // Xử lý khi người dùng xác nhận yêu cầu
+                confirmRequest(studentRequests.get(position), classId);
+            }
+
+            @Override
+            public void onCancelClick(int position) {
+                // TODO: Xử lý khi người dùng hủy yêu cầu
+            }
+        });
+
+        recyclerViewStudents.setAdapter(studentAdapter);
+        recyclerViewStudents.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private List<StudentRequestInfo> parseStudentRequests(DocumentSnapshot documentSnapshot) {
+        List<StudentRequestInfo> studentRequests = new ArrayList<>();
+
+        // Kiểm tra xem document có chứa trường "students" hay không
+        if (documentSnapshot.contains("students")) {
+            // Lấy danh sách sinh viên từ trường "students"
+            List<Map<String, Object>> studentsList = (List<Map<String, Object>>) documentSnapshot.get("students");
+
+            // Duyệt qua từng sinh viên và thêm vào danh sách yêu cầu
+            for (Map<String, Object> studentMap : studentsList) {
+                String userId = (String) studentMap.get("id");
+                String name = (String) studentMap.get("name");
+                String status = (String) studentMap.get("status");
+
+                // Tạo đối tượng StudentRequestInfo và thêm vào danh sách
+                StudentRequestInfo studentRequest = new StudentRequestInfo(userId, name, status);
+                studentRequests.add(studentRequest);
+            }
+        }
+
+        return studentRequests;
+    }
+    private void confirmRequest(StudentRequestInfo studentRequest, String classId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Đường dẫn đến document của lớp học trong UserClasses
+        DocumentReference userClassRef = db.collection("UserClasses").document(classId);
+
+        // Đường dẫn đến document của lớp học trong classes
+        DocumentReference classRef = db.collection("classes").document(classId);
+
+        // Tạo một Map để cập nhật thông tin sinh viên trong UserClasses
+        Map<String, Object> updateUserData = new HashMap<>();
+        updateUserData.put("status", "confirm"); // Đổi trạng thái thành confirm
+
+        // Thực hiện cập nhật trạng thái trong UserClasses
+        userClassRef.update(updateUserData)
+                .addOnSuccessListener(aVoid -> {
+                    // Xử lý thành công
+                    Toast.makeText(this, "Xác nhận yêu cầu thành công", Toast.LENGTH_SHORT).show();
+
+                    // Thêm thông tin sinh viên vào lớp học trong classes
+                    Map<String, Object> studentData = new HashMap<>();
+                    studentData.put("id", studentRequest.getId());
+                    studentData.put("name", studentRequest.getName());
+
+                    // Thực hiện cập nhật thông tin sinh viên trong classes
+                    classRef.update("students", FieldValue.arrayUnion(studentData))
+                            .addOnSuccessListener(aVoid1 -> {
+                                // Xử lý thành công
+                                Toast.makeText(this, "Thêm sinh viên vào lớp học thành công", Toast.LENGTH_SHORT).show();
+                            })
+                            .addOnFailureListener(e -> {
+                                // Xử lý lỗi khi thêm sinh viên vào lớp học trong classes
+                                Toast.makeText(this, "Lỗi khi thêm sinh viên vào lớp học", Toast.LENGTH_SHORT).show();
+                                Log.e("Firestore", "Error updating students array in classes", e);
+                            });
+
+                })
+                .addOnFailureListener(e -> {
+                    // Xử lý lỗi khi cập nhật trạng thái trong UserClasses
+                    Toast.makeText(this, "Lỗi khi xác nhận yêu cầu", Toast.LENGTH_SHORT).show();
+                    Log.e("Firestore", "Error updating status in UserClasses", e);
+                });
+    }
 
 }

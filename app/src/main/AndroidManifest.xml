@@ -18,7 +18,7 @@
             android:name=".DetailClassActivityStudent"
             android:exported="false" />
         <activity
-            android:name=".DetailClassActivity"
+            android:name=".DetailClassActivityCoach"
             android:exported="false" />
         <activity
             android:name=".CoachFuntion.AddClassActivity"

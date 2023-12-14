@@ -108,10 +108,10 @@ public class DetailClassActivityStudent extends AppCompatActivity {
         // Lấy UserID của người đăng nhập
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String userId = (currentUser != null) ? currentUser.getUid() : "";
-
+        String nameStudent = currentUser.getDisplayName();
         // Tạo một đối tượng Map để lưu thông tin của sinh viên
         Map<String, Object> studentData = new HashMap<>();
-        studentData.put("name", "Tên sinh viên"); // Thay thế bằng tên thực của sinh viên
+        studentData.put("name", nameStudent); // Thay thế bằng tên thực của sinh viên
         studentData.put("id", userId);
         studentData.put("status", "pending"); // Trạng thái ban đầu
 

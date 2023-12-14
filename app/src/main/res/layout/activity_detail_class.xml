@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical"
     android:padding="16dp">
@@ -39,6 +40,14 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         tools:text="teacherName" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewStudents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/student_request_item"
+        android:layout_marginTop="16dp"
+        />
 
 
 </LinearLayout>
