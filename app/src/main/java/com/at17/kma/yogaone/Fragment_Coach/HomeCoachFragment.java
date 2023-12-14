@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.ak.ColoredDate;
 import com.ak.KalendarView;
 import com.at17.kma.yogaone.Adapter.ClassAdapter;
-import com.at17.kma.yogaone.DetailClassActivity;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.at17.kma.yogaone.R;
 import com.google.firebase.auth.FirebaseAuth;

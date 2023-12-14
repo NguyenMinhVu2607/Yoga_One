@@ -2,6 +2,8 @@ package com.at17.kma.yogaone.Login_Res;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +41,10 @@ public class ResActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fFirestore = FirebaseFirestore.getInstance();
         AnhXaView();
+        addTextWatcher(fullName);
+        addTextWatcher(email);
+        addTextWatcher(password);
+        addTextWatcher(phone);
         // Go to login Code
         gotoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,15 +127,66 @@ public class ResActivity extends AppCompatActivity {
         gotoLogin = findViewById(R.id.gotoLogin);
 
     }
-    public Boolean CheckField(EditText textField){
-        //Check Edittext
-        if (textField.getText().toString().isEmpty()){
-            textField.setError("Error");
+    public Boolean CheckField(EditText textField) {
+        // Check EditText
+        String text = textField.getText().toString().trim();
+
+        if (text.isEmpty()) {
+            textField.setError("Field cannot be empty");
             valid = false;
         } else {
-            valid = true;
+            // Additional validation logic based on the ID
+            if (textField.getId() == R.id.registerName) {
+                if (text.length() > 100) {
+                    textField.setError("Full name cannot exceed 100 characters");
+                    valid = false;
+                } else {
+                    valid = true;
+                }
+            } else if (textField.getId() == R.id.registerEmail) {
+                // Use a simple regex pattern to check email format
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                if (!text.matches(emailPattern)) {
+                    textField.setError("Invalid email format");
+                    valid = false;
+                } else {
+                    valid = true;
+                }
+            } else if (textField.getId() == R.id.registerPassword) {
+                // Check if the password meets the criteria
+                String passwordPattern = "^(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{6,}$";
+                if (!text.matches(passwordPattern)) {
+                    textField.setError("Password must be at least 6 characters with one uppercase letter and one special character");
+                    valid = false;
+                } else {
+                    valid = true;
+                }
+            } else {
+                valid = true;
+            }
         }
+
         return valid;
+    }
+
+    private void addTextWatcher(final EditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Not needed for your case
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Not needed for your case
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Check the field when text changes
+                CheckField(editText);
+            }
+        });
     }
 
 }

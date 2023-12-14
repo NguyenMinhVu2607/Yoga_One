@@ -15,6 +15,9 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".DetailClassActivityStudent"
+            android:exported="false" />
+        <activity
             android:name=".DetailClassActivity"
             android:exported="false" />
         <activity

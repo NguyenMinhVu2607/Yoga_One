@@ -13,7 +13,10 @@ import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class DetailClassActivity extends AppCompatActivity {
+import java.util.HashMap;
+import java.util.Map;
+
+public class DetailClassActivityCoach extends AppCompatActivity {
 
     private TextView textClassName;
     private TextView textDayOfWeek;
@@ -84,4 +87,7 @@ public class DetailClassActivity extends AppCompatActivity {
 
         // Thêm mã code để hiển thị các thông tin khác nếu cần
     }
+
+    // Thêm
+
 }

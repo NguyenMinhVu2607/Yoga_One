@@ -15,7 +15,7 @@ import android.widget.Button;
 
 import com.at17.kma.yogaone.Adapter.ClassAdapter;
 import com.at17.kma.yogaone.CoachFuntion.AddClassActivity;
-import com.at17.kma.yogaone.DetailClassActivity;
+import com.at17.kma.yogaone.DetailClassActivityCoach;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.at17.kma.yogaone.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -82,7 +82,7 @@ public class ManageCourseFragment extends Fragment {
 
     private void setupRecyclerViewClickListener() {
         classAdapter.setItemClickListener(classInfo -> {
-            Intent intent = new Intent(getActivity(), DetailClassActivity.class);
+            Intent intent = new Intent(getActivity(), DetailClassActivityCoach.class);
             intent.putExtra("idClass", classInfo.getDocumentId());
             startActivity(intent);
         });

@@ -14,7 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.at17.kma.yogaone.Adapter.ClassAdapter;
 import com.at17.kma.yogaone.CoachFuntion.AddClassActivity;
-import com.at17.kma.yogaone.DetailClassActivity;
+import com.at17.kma.yogaone.DetailClassActivityCoach;
+import com.at17.kma.yogaone.DetailClassActivityStudent;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.at17.kma.yogaone.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,6 +25,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class CourseFragment extends Fragment {
@@ -79,7 +81,7 @@ public class CourseFragment extends Fragment {
 
     private void setupRecyclerViewClickListener() {
         classAdapter.setItemClickListener(classInfo -> {
-            Intent intent = new Intent(getActivity(), DetailClassActivity.class);
+            Intent intent = new Intent(getActivity(), DetailClassActivityStudent.class);
             intent.putExtra("idClass", classInfo.getDocumentId());
             Log.d("idClass3",""+ classInfo.getDocumentId());
 
