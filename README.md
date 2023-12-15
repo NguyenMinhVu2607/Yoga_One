@@ -25,7 +25,13 @@ Cài Đặt
 Tải ứng dụng từ Google Play Store.
 Cài đặt và mở ứng dụng trên thiết bị Android của bạn.
 Hỗ Trợ và Phản Hồi
-Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào, vui lòng liên hệ với chúng tôi qua email vunm.adr@gmail.com. Chúng tôi rất mong nhận được phản hồi từ bạn để cải thiện ứng dụng.
+Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào, vui lòng liên hệ với chúng tôi qua email support@yogastudiomanagement.com. Chúng tôi rất mong nhận được phản hồi từ bạn để cải thiện ứng dụng.
 
 Giấy Phép
 YOGA Studio Management App được cấp phép theo điều khoản Giấy Phép MIT.
+
+
+
+
+
+
