@@ -91,7 +91,7 @@ public class DetailClassActivityCoach extends AppCompatActivity {
                 });
     }
 
-    private void displayClassInfo(ClassInfo classInfo) {
+        private void displayClassInfo(ClassInfo classInfo) {
         // Hiển thị thông tin lớp học trên giao diện
         textClassName.setText("Class Name: " + classInfo.getClassName());
         textDayOfWeek.setText("Day of Week: " + TextUtils.join(", ", classInfo.getDayOfWeek()));
@@ -132,12 +132,18 @@ public class DetailClassActivityCoach extends AppCompatActivity {
             @Override
             public void onConfirmClick(int position) {
                 // Xử lý khi người dùng xác nhận yêu cầu
-                confirmRequest(studentRequests.get(position), classId);
+//                confirmRequest(studentRequests.get(position), classId);
+                confirmAndAddToClass(studentRequests.get(position), classId);
+                studentAdapter.removeStudent(position);
+
             }
+
 
             @Override
             public void onCancelClick(int position) {
-                // TODO: Xử lý khi người dùng hủy yêu cầu
+                cancelRequest(studentRequests.get(position), classId);
+                studentAdapter.removeStudent(position);
+
             }
         });
 
@@ -167,48 +173,104 @@ public class DetailClassActivityCoach extends AppCompatActivity {
 
         return studentRequests;
     }
+
+    // Hàm này để gọi 2 hàm thêm sinh viên vào classes và đổi trạng thái từ Pending thành Confirm
+    private void confirmAndAddToClass(StudentRequestInfo studentRequest, String classId) {
+        confirmRequest(studentRequest, classId);
+        addStudentToClass(studentRequest, classId);
+    }
+    //Đổi trạng thái trong UserClass
     private void confirmRequest(StudentRequestInfo studentRequest, String classId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         // Đường dẫn đến document của lớp học trong UserClasses
         DocumentReference userClassRef = db.collection("UserClasses").document(classId);
 
-        // Đường dẫn đến document của lớp học trong classes
+        // Lấy danh sách sinh viên từ tài liệu UserClasses
+        userClassRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                List<Map<String, Object>> studentsList = (List<Map<String, Object>>) documentSnapshot.get("students");
+
+                // Tìm sinh viên cần cập nhật trong danh sách
+                for (Map<String, Object> student : studentsList) {
+                    String studentId = (String) student.get("id");
+                    if (studentId != null && studentId.equals(studentRequest.getId())) {
+                        // Sửa đổi trạng thái của sinh viên cần cập nhật
+                        student.put("status", "confirm");
+                        break;  // Kết thúc vòng lặp khi đã tìm thấy sinh viên cần cập nhật
+                    }
+                }
+
+                // Cập nhật lại danh sách sinh viên trong UserClasses
+                userClassRef.update("students", studentsList)
+                        .addOnSuccessListener(aVoid -> {
+                            // Xử lý thành công
+                            Toast.makeText(this, "Xác nhận yêu cầu thành công", Toast.LENGTH_SHORT).show();
+                        })
+                        .addOnFailureListener(e -> {
+                            // Xử lý lỗi khi cập nhật trạng thái sinh viên trong UserClasses
+                            Toast.makeText(this, "Lỗi khi xác nhận yêu cầu", Toast.LENGTH_SHORT).show();
+                            Log.e("Firestore", "Error updating status in UserClasses", e);
+                        });
+            }
+        });
+    }
+    private void cancelRequest(StudentRequestInfo studentRequest, String classId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Đường dẫn đến document của lớp học trong UserClasses
+        DocumentReference userClassRef = db.collection("UserClasses").document(classId);
+
+        // Lấy danh sách sinh viên từ tài liệu UserClasses
+        userClassRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                List<Map<String, Object>> studentsList = (List<Map<String, Object>>) documentSnapshot.get("students");
+
+                // Tìm sinh viên cần cập nhật trong danh sách
+                for (Map<String, Object> student : studentsList) {
+                    String studentId = (String) student.get("id");
+                    if (studentId != null && studentId.equals(studentRequest.getId())) {
+                        // Sửa đổi trạng thái của sinh viên cần cập nhật
+                        student.put("status", "cancel");
+                        break;  // Kết thúc vòng lặp khi đã tìm thấy sinh viên cần cập nhật
+                    }
+                }
+
+                // Cập nhật lại danh sách sinh viên trong UserClasses
+                userClassRef.update("students", studentsList)
+                        .addOnSuccessListener(aVoid -> {
+                            // Xử lý thành công
+                            Toast.makeText(this, "Xác nhận yêu cầu thành công", Toast.LENGTH_SHORT).show();
+                        })
+                        .addOnFailureListener(e -> {
+                            // Xử lý lỗi khi cập nhật trạng thái sinh viên trong UserClasses
+                            Toast.makeText(this, "Lỗi khi xác nhận yêu cầu", Toast.LENGTH_SHORT).show();
+                            Log.e("Firestore", "Error updating status in UserClasses", e);
+                        });
+            }
+        });
+    }
+    private void addStudentToClass(StudentRequestInfo studentRequest, String classId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Đường dẫn đến document của lớp học trong Classes
         DocumentReference classRef = db.collection("classes").document(classId);
 
-        // Tạo một Map để cập nhật thông tin sinh viên trong UserClasses
-        Map<String, Object> updateUserData = new HashMap<>();
-        updateUserData.put("status", "confirm"); // Đổi trạng thái thành confirm
+        // Thêm thông tin sinh viên vào lớp học trong classes
+        Map<String, Object> studentData = new HashMap<>();
+        studentData.put("id", studentRequest.getId());
+        studentData.put("name", studentRequest.getName());
 
-        // Thực hiện cập nhật trạng thái trong UserClasses
-        userClassRef.update(updateUserData)
+        // Thực hiện cập nhật thông tin sinh viên trong classes
+        classRef.update("students", FieldValue.arrayUnion(studentData))
                 .addOnSuccessListener(aVoid -> {
                     // Xử lý thành công
-                    Toast.makeText(this, "Xác nhận yêu cầu thành công", Toast.LENGTH_SHORT).show();
-
-                    // Thêm thông tin sinh viên vào lớp học trong classes
-                    Map<String, Object> studentData = new HashMap<>();
-                    studentData.put("id", studentRequest.getId());
-                    studentData.put("name", studentRequest.getName());
-
-                    // Thực hiện cập nhật thông tin sinh viên trong classes
-                    classRef.update("students", FieldValue.arrayUnion(studentData))
-                            .addOnSuccessListener(aVoid1 -> {
-                                // Xử lý thành công
-                                Toast.makeText(this, "Thêm sinh viên vào lớp học thành công", Toast.LENGTH_SHORT).show();
-                            })
-                            .addOnFailureListener(e -> {
-                                // Xử lý lỗi khi thêm sinh viên vào lớp học trong classes
-                                Toast.makeText(this, "Lỗi khi thêm sinh viên vào lớp học", Toast.LENGTH_SHORT).show();
-                                Log.e("Firestore", "Error updating students array in classes", e);
-                            });
-
+                    Toast.makeText(this, "Thêm sinh viên vào lớp học thành công", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {
-                    // Xử lý lỗi khi cập nhật trạng thái trong UserClasses
-                    Toast.makeText(this, "Lỗi khi xác nhận yêu cầu", Toast.LENGTH_SHORT).show();
-                    Log.e("Firestore", "Error updating status in UserClasses", e);
+                    // Xử lý lỗi khi thêm sinh viên vào lớp học trong classes
+                    Toast.makeText(this, "Lỗi khi thêm sinh viên vào lớp học", Toast.LENGTH_SHORT).show();
+                    Log.e("Firestore", "Error updating students array in classes", e);
                 });
     }
-
 }

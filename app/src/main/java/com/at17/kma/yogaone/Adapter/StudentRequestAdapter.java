@@ -54,22 +54,42 @@ public class StudentRequestAdapter extends RecyclerView.Adapter<StudentRequestAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         StudentRequestInfo studentInfo = studentList.get(position);
-        holder.textStudentName.setText(studentInfo.getName());
 
-        // Thêm sự kiện xác nhận và hủy bỏ yêu cầu
-        holder.iconConfirm.setOnClickListener(v -> {
-            if (itemClickListener != null) {
-                itemClickListener.onConfirmClick(position);
-            }
-        });
+        // Chỉ hiển thị sinh viên có trạng thái là "pending"
+        if ("pending".equals(studentInfo.getStatus())) {
+            holder.textStudentName.setText(studentInfo.getName());
 
-        holder.iconCancel.setOnClickListener(v -> {
-            if (itemClickListener != null) {
-                itemClickListener.onCancelClick(position);
-            }
-        });
+            // Thêm sự kiện xác nhận và hủy bỏ yêu cầu
+            holder.iconConfirm.setOnClickListener(v -> {
+                if (itemClickListener != null) {
+                    itemClickListener.onConfirmClick(position);
+
+                }
+            });
+
+            holder.iconCancel.setOnClickListener(v -> {
+                if (itemClickListener != null) {
+                    itemClickListener.onCancelClick(position);
+                }
+            });
+
+            // Hiển thị view
+            holder.itemView.setVisibility(View.VISIBLE);
+            holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            ));
+        } else {
+            // Nếu sinh viên không có trạng thái là "pending", ẩn view đi
+            holder.itemView.setVisibility(View.GONE);
+            holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+        }
     }
-
+    public void removeStudent(int position) {
+        studentList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, getItemCount());
+    }
     @Override
     public int getItemCount() {
         return studentList.size();
@@ -77,8 +97,8 @@ public class StudentRequestAdapter extends RecyclerView.Adapter<StudentRequestAd
 
     // Hàm này để cập nhật dữ liệu mới cho adapter
     public void updateData(List<StudentRequestInfo> newStudentList) {
-        studentList.clear();
-        studentList.addAll(newStudentList);
+//        studentList.clear();
+//        studentList.addAll(newStudentList);
         notifyDataSetChanged();
     }
 }
