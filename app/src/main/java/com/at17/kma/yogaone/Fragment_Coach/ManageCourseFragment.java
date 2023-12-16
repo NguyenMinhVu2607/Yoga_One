@@ -11,16 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.at17.kma.yogaone.Adapter.ClassAdapter;
 import com.at17.kma.yogaone.CoachFuntion.AddClassActivity;
-import com.at17.kma.yogaone.DetailClassActivityCoach;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.at17.kma.yogaone.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -83,8 +80,13 @@ public class ManageCourseFragment extends Fragment {
     private void setupRecyclerViewClickListener() {
         classAdapter.setItemClickListener(classInfo -> {
             Intent intent = new Intent(getActivity(), DetailClassActivityCoach.class);
-            intent.putExtra("idClass", classInfo.getDocumentId());
+            intent.putExtra("idClassCoach", classInfo.getDocumentId());
             startActivity(intent);
+//
+//            Bundle bundle = new Bundle();
+//            bundle.putString("idClass", classInfo.getDocumentId());
+//            RequestStudentFragment fragment = new RequestStudentFragment();
+//            fragment.setArguments(bundle);
         });
     }
 }

@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="@color/white"
+    android:orientation="vertical"
     android:layout_height="match_parent">
 <TextView
     android:id="@+id/tv"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:text="hoepfhopehfopho"
+    android:layout_height="wrap_content"
+    android:text="The enum above lists all the pages of the ViewPagers. There are three pages with t
+    heir respective layouts. The la
+    yout of a si
+    ngle page is given below. view_blue.xml"
+    android:textSize="20dp"
     android:textColor="@color/black"
     android:background="@color/white"
     />
-
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tv" >
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:elevation="6dp"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     </androidx.viewpager.widget.ViewPager>
-</RelativeLayout>
+</LinearLayout>

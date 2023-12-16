@@ -40,14 +40,30 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         tools:text="teacherName" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewStudents"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutListStudent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/student_request_item"
-        android:layout_marginTop="16dp"
-        />
+        android:background="@color/white"
+        android:elevation="6dp"
+        app:tabTextColor="@color/black"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPagerStudent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv" >
+
+
+    </androidx.viewpager.widget.ViewPager>
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recyclerViewStudents"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        tools:listitem="@layout/student_request_item"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        />-->
 
 
 </LinearLayout>

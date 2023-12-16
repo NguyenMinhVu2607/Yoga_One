@@ -1,4 +1,4 @@
-package com.at17.kma.yogaone;
+package com.at17.kma.yogaone.Fragment_Student;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
+import com.at17.kma.yogaone.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -45,14 +46,9 @@ public class DetailClassActivityStudent extends AppCompatActivity {
 
         // Lấy thông tin từ Intent
         Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("idClass")) {
-             classId = intent.getStringExtra("idClass");
+        if (intent != null && intent.hasExtra("idClassSTD")) {
+             classId = intent.getStringExtra("idClassSTD");
             // Gọi hàm để lấy thông tin từ Firestore
-            loadClassInfoFromFirestore(classId);
-        } else if (intent != null && intent.hasExtra("idClass1")) {
-            classId = intent.getStringExtra("idClass1");
-            Log.d("idClass1",""+classId);
-
             loadClassInfoFromFirestore(classId);
         }
         else {

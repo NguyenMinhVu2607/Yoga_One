@@ -6,26 +6,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.at17.kma.yogaone.Adapter.ClassAdapter;
-import com.at17.kma.yogaone.CoachFuntion.AddClassActivity;
-import com.at17.kma.yogaone.DetailClassActivityCoach;
-import com.at17.kma.yogaone.DetailClassActivityStudent;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.at17.kma.yogaone.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 public class CourseFragment extends Fragment {
@@ -82,10 +76,17 @@ public class CourseFragment extends Fragment {
     private void setupRecyclerViewClickListener() {
         classAdapter.setItemClickListener(classInfo -> {
             Intent intent = new Intent(getActivity(), DetailClassActivityStudent.class);
-            intent.putExtra("idClass", classInfo.getDocumentId());
+            intent.putExtra("idClassSTD", classInfo.getDocumentId());
             Log.d("idClass3",""+ classInfo.getDocumentId());
-
             startActivity(intent);
+//            Bundle bundle = new Bundle();
+//            bundle.putString("idClass", classInfo.getDocumentId());
+//
+//// Nếu bạn đang làm việc trong Fragment:
+//            RequestStudentFragment fragment = new RequestStudentFragment();
+//            fragment.setArguments(bundle);
+
+
         });
 
     }

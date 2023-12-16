@@ -15,10 +15,10 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".DetailClassActivityStudent"
+            android:name=".Fragment_Student.DetailClassActivityStudent"
             android:exported="false" />
         <activity
-            android:name=".DetailClassActivityCoach"
+            android:name=".Fragment_Coach.DetailClassActivityCoach"
             android:exported="false" />
         <activity
             android:name=".CoachFuntion.AddClassActivity"
