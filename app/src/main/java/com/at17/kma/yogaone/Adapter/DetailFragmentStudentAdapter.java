@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.at17.kma.yogaone.ListStudentClassFragment;
+import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.at17.kma.yogaone.RequestStudentFragment;
 
 public class DetailFragmentStudentAdapter extends FragmentStatePagerAdapter {
@@ -28,7 +29,9 @@ public class DetailFragmentStudentAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new ListStudentClassFragment();
+                ListStudentClassFragment listStudentClassFragment = new ListStudentClassFragment();
+                listStudentClassFragment.setArguments(bundle); // Truyền dữ liệu từ Bundle vào Fragment
+                return listStudentClassFragment;
             case 1:
                 RequestStudentFragment fragment = new RequestStudentFragment();
                 fragment.setArguments(bundle); // Truyền dữ liệu từ Bundle vào Fragment
@@ -59,6 +62,7 @@ public class DetailFragmentStudentAdapter extends FragmentStatePagerAdapter {
         this.bundle = bundle;
         notifyDataSetChanged(); // Cập nhật ViewPager khi có dữ liệu mới
     }
+
 }
 
 

@@ -22,7 +22,7 @@ public class ClassInfo {
         // Default constructor required for Firestore
     }
 
-    public ClassInfo(String documentId, String className, List<String> dayOfWeek, long endDay, String location, long startDay, String teacherName, String teacherId, String timeStringEnd, String timeStringStart) {
+    public ClassInfo(String documentId, String className, List<String> dayOfWeek, long endDay, String location, long startDay, String teacherName, String teacherId, String timeStringEnd, String timeStringStart, List<StudentInfo> students) {
         this.documentId = documentId;
         this.className = className;
         this.dayOfWeek = dayOfWeek;
@@ -33,8 +33,11 @@ public class ClassInfo {
         this.teacherId = teacherId;
         this.timeStringEnd = timeStringEnd;
         this.timeStringStart = timeStringStart;
+        this.students = students;
     }
-
+    public ClassInfo(String documentId) {
+        this.documentId = documentId;
+    }
     public String getDocumentId() {
         return documentId;
     }

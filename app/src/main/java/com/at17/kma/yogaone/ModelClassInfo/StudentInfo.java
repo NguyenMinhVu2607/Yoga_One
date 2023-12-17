@@ -8,6 +8,9 @@ public class StudentInfo implements Parcelable {
     private String name;
 
     // Constructors, getters, and setters (code không thay đổi)
+    public StudentInfo() {
+        // Default constructor required for Firestore
+    }
 
     public StudentInfo(String id, String name) {
         this.id = id;
