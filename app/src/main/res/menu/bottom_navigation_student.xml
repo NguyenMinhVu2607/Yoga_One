@@ -5,8 +5,12 @@
         android:title="Trang chủ"
         android:icon="@drawable/icon_home"/>
     <item
-        android:id="@+id/person"
-        android:title="Chat"
+        android:id="@+id/listClassConfirm"
+        android:title="List Class"
+        android:icon="@drawable/workout"/>
+    <item
+        android:id="@+id/listAllClass"
+        android:title="List All Class"
         android:icon="@drawable/workout"/>
     <item
         android:id="@+id/profileStudent"

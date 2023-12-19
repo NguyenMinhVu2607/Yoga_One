@@ -21,6 +21,10 @@ import com.at17.kma.yogaone.Login_Res.LoginActivity;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.at17.kma.yogaone.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -30,6 +34,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 public class HomeFragment extends Fragment {
@@ -38,12 +43,16 @@ public class HomeFragment extends Fragment {
     private List<ClassInfo> classList;
     private ArrayAdapter<String> listViewAdapter;
     private SparseBooleanArray markedDays;
+    private FirebaseFirestore fFirestore;
+    String uid;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         // Inflate the layout for this fragment
+        fFirestore = FirebaseFirestore.getInstance();
 
         kalendarView = view.findViewById(R.id.kalendarViewStudent);
         listView = view.findViewById(R.id.listViewClassesStudent);
@@ -63,6 +72,12 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(), "" + i, Toast.LENGTH_SHORT).show();
             }
         });
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            uid = currentUser.getUid();
+            loadDataFromFirebase();
+        }
+
         // Xử lý sự kiện khi người dùng chọn ngày trên KalendarView
         kalendarView.setDateSelector(selectedDate -> {
             Log.d("DateSel", selectedDate.toString());
@@ -76,18 +91,56 @@ public class HomeFragment extends Fragment {
                     calendar.get(Calendar.DAY_OF_MONTH)
             );
         });
-        queryClassesFromFirestore();
+//        queryClassesFromFirestore();
         return view;
 
     }
 
-    private void queryClassesFromFirestore() {
+    private void loadDataFromFirebase() {
+        DocumentReference documentReference = fFirestore.collection("Users").document(uid);
+        documentReference.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document != null && document.exists()) {
+                    List<String> classIds = new ArrayList<>();
+                    if (document.contains("ListClassAdded")) {
+                        List<Map<String, String>> listClassAdded = (List<Map<String, String>>) document.get("ListClassAdded");
+                        for (Map<String, String> classMap : listClassAdded) {
+                            if (classMap.containsKey("classId")) {
+                                String classId = classMap.get("classId");
+                                classIds.add(classId);
+                            }
+                        }
+
+                        // Log the contents of classIds
+                        Log.d("TAG", "Class IDs: " + classIds);
+
+                        // Call the method to query classes based on classIds
+                        queryClassesFromFirestore(classIds);
+                    }
+                } else {
+                    Log.d("TAG", "Document does not exist");
+                }
+            } else {
+                Log.d("TAG", "Error getting documents: ", task.getException());
+            }
+        });
+    }
+
+
+    private void queryClassesFromFirestore(List<String> classIds) {
         // Truy vấn dữ liệu từ Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Build a query to fetch only classes with IDs in classIds
         db.collection("classes")
+                .whereIn(FieldPath.documentId(), classIds)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        // Clear the existing classList before adding new classes
+                        classList.clear();
+
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             // Chuyển đổi dữ liệu từ Firestore thành đối tượng ClassInfo
                             ClassInfo classInfo = document.toObject(ClassInfo.class);
@@ -96,6 +149,10 @@ public class HomeFragment extends Fragment {
                             // Đánh dấu ngày có lịch học
                             markDaysWithClasses();
                         }
+
+                        // Log the size of the classList
+                        Log.d("Firestore", "Class list size: " + classIds);
+
                         // Hiển thị lịch và danh sách lớp học cho ngày mặc định (hiện tại)
                         displayClassesForSelectedDay(
                                 Calendar.getInstance().get(Calendar.YEAR),
@@ -107,6 +164,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
+
 
     private void markDaysWithClasses() {
         List<ColoredDate> datesColors = new ArrayList<>();
@@ -139,6 +197,8 @@ public class HomeFragment extends Fragment {
         String selectedDayOfWeek = getDayOfWeek(year, month, dayOfMonth);
 
         // Lọc danh sách lớp học cho ngày đã chọn (theo dayOfWeek và khoảng thời gian)
+        boolean classesFound = false;  // Flag to check if any classes are found
+
         for (ClassInfo classInfo : classList) {
             List<String> classDaysOfWeek = classInfo.getDayOfWeek();
 
@@ -166,14 +226,22 @@ public class HomeFragment extends Fragment {
                             className + " - " + teacherName + "\n"
                                     + "Địa điểm: " + location + "\n"
                                     + startTimeClass + " - " + endTimeClass + "\n"
-
                                     + "Ngày bắt đầu: " + startTimeFormatted + "\n"
                                     + "Ngày kết thúc: " + endTimeFormatted
                     );
+
+                    // Set the flag to true, indicating that classes are found
+                    classesFound = true;
                 }
             }
         }
+
+        // If no classes are found, show a message
+        if (!classesFound) {
+            listViewAdapter.add("Không có lớp học nào cho ngày này.");
+        }
     }
+
 
     private boolean isClassWithinSelectedDay(long startTime, long endTime, int year, int month, int dayOfMonth) {
         // Tạo Calendar cho ngày bắt đầu và ngày kết thúc

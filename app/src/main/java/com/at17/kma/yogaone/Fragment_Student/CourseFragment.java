@@ -26,16 +26,10 @@ public class CourseFragment extends Fragment {
 
     private RecyclerView recyclerView;
 
-    private FloatingActionButton btnAddClass;
     private List<ClassInfo> classList;
     private ClassAdapter classAdapter;
 
 
-    //    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,14 +73,6 @@ public class CourseFragment extends Fragment {
             intent.putExtra("idClassSTD", classInfo.getDocumentId());
             Log.d("idClass3",""+ classInfo.getDocumentId());
             startActivity(intent);
-//            Bundle bundle = new Bundle();
-//            bundle.putString("idClass", classInfo.getDocumentId());
-//
-//// Nếu bạn đang làm việc trong Fragment:
-//            RequestStudentFragment fragment = new RequestStudentFragment();
-//            fragment.setArguments(bundle);
-
-
         });
 
     }

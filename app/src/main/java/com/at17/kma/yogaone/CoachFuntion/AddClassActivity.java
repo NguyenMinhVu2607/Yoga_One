@@ -82,70 +82,99 @@ public class AddClassActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user != null) {
-                    // Name, email address, and profile photo Url
-                    name = user.getDisplayName();
-                    teacherUID = user.getUid();
+                if( checkInfoClass()){
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if (user != null) {
+                        // Name, email address, and profile photo Url
+                        name = user.getDisplayName();
+                        teacherUID = user.getUid();
 
 
-                }
-                // Lấy thông tin từ các thành phần nhập liệu
-                String className = classNameEditText.getText().toString();
-                String teacherName = name;
-                String teacherId = teacherUID;
-                String location = locationEditText.getText().toString();
-                int startHour = startTimePicker.getHour();
-                int startMinute = startTimePicker.getMinute();
-                int endHour = endTimePicker.getHour();
-                int endMinute = endTimePicker.getMinute();
+                    }
+                    // Lấy thông tin từ các thành phần nhập liệu
+                    String className = classNameEditText.getText().toString();
+                    String teacherName = name;
+                    String teacherId = teacherUID;
+                    String location = locationEditText.getText().toString();
+                    int startHour = startTimePicker.getHour();
+                    int startMinute = startTimePicker.getMinute();
+                    int endHour = endTimePicker.getHour();
+                    int endMinute = endTimePicker.getMinute();
 //                String selectedDay = scheduleSpinner.getSelectedItem().toString();
 
 
-                //Set giờ và phút
-                // Lấy giờ và phút từ TimePicker
-                int hourEnd = endTimePicker.getHour();
-                int minuteEnd = endTimePicker.getMinute();
-                int hourStart = startTimePicker.getHour();
-                int minuteStart = startTimePicker.getMinute();
+                    //Set giờ và phút
+                    // Lấy giờ và phút từ TimePicker
+                    int hourEnd = endTimePicker.getHour();
+                    int minuteEnd = endTimePicker.getMinute();
+                    int hourStart = startTimePicker.getHour();
+                    int minuteStart = startTimePicker.getMinute();
 
-                // Chuyển đổi thành chuỗi
-                String timeStringEnd = String.format("%02d:%02d", hourEnd, minuteEnd);
-                String timeStringStart = String.format("%02d:%02d", hourStart, minuteStart);
-                // Lấy thông tin từ DatePicker
-                int startYear = startDatePicker.getYear();
-                int startMonth = startDatePicker.getMonth();
-                int startDay = startDatePicker.getDayOfMonth();
-                int endYear = endDatePicker.getYear();
-                int endMonth = endDatePicker.getMonth();
-                int endDay = endDatePicker.getDayOfMonth();
+                    // Chuyển đổi thành chuỗi
+                    String timeStringEnd = String.format("%02d:%02d", hourEnd, minuteEnd);
+                    String timeStringStart = String.format("%02d:%02d", hourStart, minuteStart);
+                    // Lấy thông tin từ DatePicker
+                    int startYear = startDatePicker.getYear();
+                    int startMonth = startDatePicker.getMonth();
+                    int startDay = startDatePicker.getDayOfMonth();
+                    int endYear = endDatePicker.getYear();
+                    int endMonth = endDatePicker.getMonth();
+                    int endDay = endDatePicker.getDayOfMonth();
 
-                //
-                List<String> selectedDays = getSelectedDays();
-                Log.d("TAG","selectedDays :"+selectedDays) ;
-                // Thêm thông tin lớp học vào Firestore
-                addClassToFirestore(teacherId,className, teacherName, location,timeStringEnd,timeStringStart, startYear, startMonth, startDay, startHour, startMinute, endYear, endMonth, endDay, endHour, endMinute, selectedDays);
-            }
+                    //
+                    List<String> selectedDays = getSelectedDays();
+                    Log.d("TAG","selectedDays :"+selectedDays) ;
+                    // Thêm thông tin lớp học vào Firestore
+                    addClassToFirestore(teacherId,className, teacherName, location,timeStringEnd,timeStringStart, startYear, startMonth, startDay, startHour, startMinute, endYear, endMonth, endDay, endHour, endMinute, selectedDays);
+
+                }
+               }
         });
     }
+    public boolean checkInfoClass() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        name = user.getDisplayName();
+        teacherUID = user.getUid();
+        // Lấy thông tin từ các thành phần nhập liệu
+        String className = classNameEditText.getText().toString().trim();
+        String teacherName = name;
+        String teacherId = teacherUID;
+        String location = locationEditText.getText().toString().trim();
 
-    private void setupScheduleSpinner() {
-        // Tạo danh sách ngày trong tuần
-        List<String> daysOfWeek = new ArrayList<>();
-        daysOfWeek.add("Thứ 2");
-        daysOfWeek.add("Thứ 3");
-        daysOfWeek.add("Thứ 4");
-        daysOfWeek.add("Thứ 5");
-        daysOfWeek.add("Thứ 6");
-        daysOfWeek.add("Thứ 7");
-        daysOfWeek.add("Chủ Nhật");
+        if (isEmptyOrNull(className) || isEmptyOrNull(teacherName) || isEmptyOrNull(teacherId) || isEmptyOrNull(location)) {
+            Toast.makeText(AddClassActivity.this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+            return false;
+        }
 
-        // Tạo ArrayAdapter cho Spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, daysOfWeek);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Lấy giờ và phút từ TimePicker
+        int hourEnd = endTimePicker.getHour();
+        int minuteEnd = endTimePicker.getMinute();
+        int hourStart = startTimePicker.getHour();
+        int minuteStart = startTimePicker.getMinute();
 
-        // Thiết lập ArrayAdapter cho Spinner
-//        scheduleSpinner.setAdapter(adapter);
+        if (hourEnd < hourStart || (hourEnd == hourStart && minuteEnd <= minuteStart)) {
+            Toast.makeText(AddClassActivity.this, "Thời gian kết thúc phải sau thời gian bắt đầu", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // Lấy thông tin từ DatePicker
+        int startYear = startDatePicker.getYear();
+        int startMonth = startDatePicker.getMonth();
+        int startDay = startDatePicker.getDayOfMonth();
+        int endYear = endDatePicker.getYear();
+        int endMonth = endDatePicker.getMonth();
+        int endDay = endDatePicker.getDayOfMonth();
+
+        if (endYear < startYear || (endYear == startYear && (endMonth < startMonth || (endMonth == startMonth && endDay < startDay)))) {
+            Toast.makeText(AddClassActivity.this, "Ngày kết thúc phải sau ngày bắt đầu", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+    // Phương thức kiểm tra null hoặc rỗng cho chuỗi
+    private boolean isEmptyOrNull(String str) {
+        return str == null || str.isEmpty();
     }
     private List<String> getSelectedDays() {
         List<String> selectedDays = new ArrayList<>();

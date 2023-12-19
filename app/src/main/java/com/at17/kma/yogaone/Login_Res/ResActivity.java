@@ -29,6 +29,8 @@ import java.util.Map;
 
 public class ResActivity extends AppCompatActivity {
     EditText fullName,email,password,phone;
+    EditText confirmPassword;
+
     Button registerBtn, gotoLogin;
     boolean valid = true;
     FirebaseAuth fAuth;
@@ -49,8 +51,8 @@ public class ResActivity extends AppCompatActivity {
         gotoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                startActivity(new Intent(ResActivity.this,LoginActivity.class));
-//                finish();
+                startActivity(new Intent(ResActivity.this,LoginActivity.class));
+                finish();
             }
         });
 
@@ -59,14 +61,11 @@ public class ResActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Call Fun Check Edittext
-                CheckField(fullName);
-                CheckField(email);
-                CheckField(password);
-                CheckField(phone);
+                // Gọi phương thức kiểm tra EditText
+                boolean validFields = checkFields();
 
-                // Create Account FireBase
-                if (valid) {
+                // Tạo tài khoản Firebase
+                if (validFields) {
                     fAuth.createUserWithEmailAndPassword(
                                     email.getText().toString().trim(),
                                     password.getText().toString().trim())
@@ -81,7 +80,7 @@ public class ResActivity extends AppCompatActivity {
                                 userInfo.put("UserMail", email.getText().toString().trim());
                                 userInfo.put("PhoneNumber", phone.getText().toString().trim());
 
-                                // Specify if the user is a coach
+                                // Xác định xem người dùng có phải là huấn luyện viên không
                                 userInfo.put("isUser", "1");
                                 //
 
@@ -114,17 +113,30 @@ public class ResActivity extends AppCompatActivity {
                                 Log.e("TAG", "Error creating user.", e);
                             });
                 }
-
             }
         });
     }
-    public void AnhXaView(){
+// Phương thức kiểm tra tất cả các trường
+        private boolean checkFields() {
+            boolean valid = true;
+
+            valid &= CheckField(fullName);
+            valid &= CheckField(email);
+            valid &= CheckField(password);
+            valid &= CheckField(phone);
+            valid &= CheckField(confirmPassword);
+
+            return valid;
+        }
+
+        public void AnhXaView(){
         fullName = findViewById(R.id.registerName);
         email = findViewById(R.id.registerEmail);
         password = findViewById(R.id.registerPassword);
         phone = findViewById(R.id.registerPhone);
         registerBtn = findViewById(R.id.registerbtn);
         gotoLogin = findViewById(R.id.gotoLogin);
+        confirmPassword = findViewById(R.id.registerConfirmPassword);
 
     }
     public Boolean CheckField(EditText textField) {
@@ -165,7 +177,17 @@ public class ResActivity extends AppCompatActivity {
                 valid = true;
             }
         }
+        if (textField.getId() == R.id.registerConfirmPassword) {
+            String enteredPassword = password.getText().toString().trim();
+            String confirmPassword = textField.getText().toString().trim();
 
+            if (!confirmPassword.equals(enteredPassword)) {
+                textField.setError("Passwords do not match");
+                valid = false;
+            } else {
+                valid = true;
+            }
+        }
         return valid;
     }
 

@@ -53,6 +53,18 @@
         tools:layout_editor_absoluteX="3dp"
         tools:text="teacherName" />
 
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerviewListStudent1"
+        android:layout_width="371dp"
+        android:layout_height="460dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/addToClassRequest"
+        app:layout_constraintTop_toBottomOf="@+id/textDayOfWeekStudent"
+        app:layout_constraintVertical_bias="0.2"
+        tools:layout_editor_absoluteX="5dp"
+        tools:listitem="@layout/student_item" />
+
     <Button
         android:id="@+id/addToClassRequest"
         android:layout_width="wrap_content"

@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.at17.kma.yogaone.Adapter.StudentRequestAdapter;
 import com.at17.kma.yogaone.ModelClassInfo.StudentRequestInfo;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -36,6 +38,7 @@ public class RequestStudentFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_request_studnet, container, false);
         recyclerViewStudents = view.findViewById(R.id.recyclerViewStudents);
+
         // Nhận Bundle từ Activity
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -44,7 +47,9 @@ public class RequestStudentFragment extends Fragment {
             Log.d("classIdRQ","classId :"+classId);
             Toast.makeText(getContext(), classId, Toast.LENGTH_SHORT).show();
             loadStudentRequests(classId);
-            } else {
+//            addClassInfotoUSer(,userID);
+
+        } else {
             Toast.makeText(getContext(), "null", Toast.LENGTH_SHORT).show();
         }
 
@@ -60,7 +65,10 @@ public class RequestStudentFragment extends Fragment {
 //                confirmRequest(studentRequests.get(position), classId);
                 confirmAndAddToClass(studentRequests.get(position), classId);
                 studentAdapter.removeStudent(position);
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
+                // Replace with the actual student ID
+                String userId = currentUser.getUid();
             }
 
 
@@ -122,8 +130,12 @@ public class RequestStudentFragment extends Fragment {
                 });
     }
     private void confirmAndAddToClass(StudentRequestInfo studentRequest, String classId) {
+
         confirmRequest(studentRequest, classId);
         addStudentToClass(studentRequest, classId);
+        addClassIdToUser(classId,studentRequest.getId());
+
+
     }
     //Đổi trạng thái trong UserClass
     private void confirmRequest(StudentRequestInfo studentRequest, String classId) {
@@ -186,11 +198,11 @@ public class RequestStudentFragment extends Fragment {
                 userClassRef.update("students", studentsList)
                         .addOnSuccessListener(aVoid -> {
                             // Xử lý thành công
-                            Toast.makeText(getContext(), "Xác nhận yêu cầu thành công", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), "Xác nhận yêu cầu thành công", Toast.LENGTH_SHORT).show();
                         })
                         .addOnFailureListener(e -> {
                             // Xử lý lỗi khi cập nhật trạng thái sinh viên trong UserClasses
-                            Toast.makeText(getContext(), "Lỗi khi xác nhận yêu cầu", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), "Lỗi khi xác nhận yêu cầu", Toast.LENGTH_SHORT).show();
                             Log.e("Firestore", "Error updating status in UserClasses", e);
                         });
             }
@@ -211,12 +223,34 @@ public class RequestStudentFragment extends Fragment {
         classRef.update("students", FieldValue.arrayUnion(studentData))
                 .addOnSuccessListener(aVoid -> {
                     // Xử lý thành công
-                    Toast.makeText(getContext(), "Thêm sinh viên vào lớp học thành công", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Thêm sinh viên vào lớp học thành công", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {
                     // Xử lý lỗi khi thêm sinh viên vào lớp học trong classes
-                    Toast.makeText(getContext(), "Lỗi khi thêm sinh viên vào lớp học", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Lỗi khi thêm sinh viên vào lớp học", Toast.LENGTH_SHORT).show();
                     Log.e("Firestore", "Error updating students array in classes", e);
+                });
+    }
+    private void addClassIdToUser(String classId, String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Đường dẫn đến document của người dùng trong collection "User"
+        DocumentReference userRef = db.collection("Users").document(userId);
+        Toast.makeText(getContext(), userId, Toast.LENGTH_SHORT).show();
+        // Thêm ID của lớp học vào danh sách lớp của người dùng
+        Map<String, Object> classData = new HashMap<>();
+        classData.put("classId", classId);
+
+        // Thực hiện cập nhật thông tin lớp học trong User
+        userRef.update("ListClassAdded", FieldValue.arrayUnion(classData))
+                .addOnSuccessListener(aVoid -> {
+                    // Xử lý thành công
+//                    Toast.makeText(getContext(), "Thêm lớp học vào USERINFO thành công", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    // Xử lý lỗi khi thêm lớp học vào thông tin người dùng
+//                    Toast.makeText(getContext(), "Lỗi khi thêm lớp học vào USERINFO", Toast.LENGTH_SHORT).show();
+                    Log.e("Firestore", "Error updating classes array in User", e);
                 });
     }
 

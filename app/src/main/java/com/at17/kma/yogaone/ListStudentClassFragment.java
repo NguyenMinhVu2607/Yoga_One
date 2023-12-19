@@ -72,7 +72,7 @@ public class ListStudentClassFragment extends Fragment {
                     Toast.makeText(getContext(), "Lỗi khi đọc dữ liệu từ Firestore", Toast.LENGTH_SHORT).show();
                     Log.e("Firestore", "Error reading class info", e);
                 });
-    }
+    }  
     private void loadClassInfoIfVisible() {
         if (isFragmentResumed && isVisible()) {
             Bundle bundle = getArguments();

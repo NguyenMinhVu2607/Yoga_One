@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -22,11 +24,10 @@ public class MainActivity extends AppCompatActivity
     BottomNavigationView bottomNavigationView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Toast.makeText(this, "Welcome to Yoga Studio", Toast.LENGTH_SHORT).show();
         bottomNavigationView
                 = findViewById(R.id.bottomNavigationView);
 
@@ -44,20 +45,24 @@ public class MainActivity extends AppCompatActivity
     public boolean
     onNavigationItemSelected(@NonNull MenuItem item)
     {
-        if (item.getItemId() == R.id.person) {
-            selectedFragmentId = R.id.person;
+        if (item.getItemId() == R.id.listClassConfirm) {
+            selectedFragmentId = R.id.listClassConfirm;
         } else if (item.getItemId() == R.id.homeStudent) {
             selectedFragmentId = R.id.homeStudent;
         } else if (item.getItemId() == R.id.profileStudent) {
             selectedFragmentId = R.id.profileStudent;
+        } else if (item.getItemId() == R.id.listAllClass) {
+            selectedFragmentId = R.id.listAllClass;
         }
 
         Fragment fragment;
 
-        if (selectedFragmentId == R.id.person) {
+        if (selectedFragmentId == R.id.listAllClass) {
             fragment = new CourseFragment();
         } else if (selectedFragmentId == R.id.homeStudent) {
             fragment = new HomeFragment();
+        } else if (selectedFragmentId == R.id.listClassConfirm) {
+            fragment = new ListClassConfirmFragment();
         } else {
             fragment = new ProfileFragment();
         }

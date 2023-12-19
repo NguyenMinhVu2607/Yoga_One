@@ -1,6 +1,8 @@
 package com.at17.kma.yogaone.Fragment_Student;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +13,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.at17.kma.yogaone.Adapter.StudentAdapter;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
+import com.at17.kma.yogaone.ModelClassInfo.StudentInfo;
 import com.at17.kma.yogaone.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DetailClassActivityStudent extends AppCompatActivity {
@@ -29,8 +34,12 @@ public class DetailClassActivityStudent extends AppCompatActivity {
     private TextView textDayOfWeek;
     private TextView textLocation;
     private TextView textteacherName;
-   private Button addToClassRequest;
+    private Button addToClassRequest;
+    private RecyclerView recyclerViewListStudent;
+    private StudentAdapter listStudentAdapter;
+    private boolean isActivityResumed;
     String classId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +52,7 @@ public class DetailClassActivityStudent extends AppCompatActivity {
         textLocation = findViewById(R.id.textLocationStudent);
         textteacherName = findViewById(R.id.textteacherNameStudent);
         addToClassRequest = findViewById(R.id.addToClassRequest);
+        recyclerViewListStudent = findViewById(R.id.recyclerviewListStudent1);
 
         // Lấy thông tin từ Intent
         Intent intent = getIntent();
@@ -50,18 +60,31 @@ public class DetailClassActivityStudent extends AppCompatActivity {
              classId = intent.getStringExtra("idClassSTD");
             // Gọi hàm để lấy thông tin từ Firestore
             loadClassInfoFromFirestore(classId);
-        }
-        else {
+        } else {
             // Xử lý khi không có dữ liệu từ Intent
             Toast.makeText(this, "Không có thông tin lớp học", Toast.LENGTH_SHORT).show();
             finish();
         }
+
         addToClassRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendJoinRequest(classId);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isActivityResumed = true;
+        loadClassInfoIfVisible();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isActivityResumed = false;
     }
 
     private void loadClassInfoFromFirestore(String classId) {
@@ -75,6 +98,8 @@ public class DetailClassActivityStudent extends AppCompatActivity {
                         ClassInfo classInfo = documentSnapshot.toObject(ClassInfo.class);
                         // Hiển thị thông tin lớp học trên giao diện
                         displayClassInfo(classInfo);
+                        // Hiển thị danh sách sinh viên nếu có
+                        displayStudents(classInfo.getStudents());
                     } else {
                         // Xử lý khi không có dữ liệu
                         Toast.makeText(this, "Không tìm thấy thông tin lớp học", Toast.LENGTH_SHORT).show();
@@ -99,7 +124,6 @@ public class DetailClassActivityStudent extends AppCompatActivity {
         // Thêm mã code để hiển thị các thông tin khác nếu cần
     }
 
-    // Thêm
     private void sendJoinRequest(String classId) {
         // Lấy UserID của người đăng nhập
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -123,6 +147,8 @@ public class DetailClassActivityStudent extends AppCompatActivity {
                             .addOnSuccessListener(aVoid1 -> {
                                 // Xử lý thành công
                                 Toast.makeText(DetailClassActivityStudent.this, "Yêu cầu đã được gửi", Toast.LENGTH_SHORT).show();
+                                // Reload class info and display students after sending join request
+                                loadClassInfoFromFirestore(classId);
                             })
                             .addOnFailureListener(e -> {
                                 // Xử lý lỗi khi thêm thông tin sinh viên vào mảng students
@@ -137,20 +163,21 @@ public class DetailClassActivityStudent extends AppCompatActivity {
                 });
     }
 
-    private void createClassAndAddStudent(String classId, Map<String, Object> studentData) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("UserClasses").document(classId)
-                .set(studentData)
-                .addOnSuccessListener(aVoid -> {
-                    // Tạo mới lớp học thành công, thêm thông tin sinh viên vào mảng students
-                    Toast.makeText(DetailClassActivityStudent.this, "Yêu cầu đã được gửi", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> {
-                    // Xử lý lỗi khi tạo mới lớp học
-                    Log.w("Firestore", "Error creating class and adding student", e);
-                    Toast.makeText(DetailClassActivityStudent.this, "Đã xảy ra lỗi", Toast.LENGTH_SHORT).show();
-                });
+    private void loadClassInfoIfVisible() {
+        if (isActivityResumed) {
+            Intent intent = getIntent();
+            if (intent != null && intent.hasExtra("idClassSTD")) {
+                String classId = intent.getStringExtra("idClassSTD");
+                loadClassInfoFromFirestore(classId);
+                Toast.makeText(getApplicationContext(), classId, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
-
+    private void displayStudents(List<StudentInfo> students) {
+        // Hiển thị danh sách sinh viên trong RecyclerView
+        listStudentAdapter = new StudentAdapter(students);
+        recyclerViewListStudent.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewListStudent.setAdapter(listStudentAdapter);
+    }
 }

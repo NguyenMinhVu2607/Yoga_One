@@ -34,6 +34,15 @@
 
         android:layout_height="wrap_content"/>
     <EditText
+        android:id="@+id/registerConfirmPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Confirm Password"
+        android:background="@null"
+        android:layout_margin="12dp"
+        android:inputType="textPassword"/>
+
+    <EditText
         android:layout_width="match_parent"
         android:hint="Phone"
         android:inputType="phone"
