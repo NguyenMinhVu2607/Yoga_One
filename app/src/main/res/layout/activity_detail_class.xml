@@ -6,8 +6,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical"
-    android:padding="16dp">
+>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#7ACEF4"
+        android:padding="8dp"
+        android:orientation="horizontal">
 
+        <ImageButton
+            android:id="@+id/backDetailCoach"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:backgroundTint="@null"
+            android:src="@drawable/baseline_arrow_back_ios_new_24"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:text="Detail Class"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/backDetailCoach"
+            app:layout_constraintStart_toEndOf="@+id/backDetailCoach"
+            app:layout_constraintTop_toTopOf="@+id/backDetailCoach" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="right"
+            android:src="@drawable/logoai"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
     <TextView
         android:id="@+id/textClassName"
         android:layout_width="match_parent"
@@ -54,16 +95,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tv" >
-
-
     </androidx.viewpager.widget.ViewPager>
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/recyclerViewStudents"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        tools:listitem="@layout/student_request_item"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        />-->
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 
 </LinearLayout>

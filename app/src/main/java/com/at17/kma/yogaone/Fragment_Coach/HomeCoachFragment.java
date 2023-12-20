@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ak.ColoredDate;
@@ -43,6 +44,7 @@ public class HomeCoachFragment extends Fragment {
     private ArrayAdapter<String> listViewAdapter;
     private SparseBooleanArray markedDays;
     private String currentUserId;  // Thêm biến để lưu ID của người dùng hiện tại
+    private TextView textviewNameCoach;
 
 
     @Override
@@ -51,13 +53,14 @@ public class HomeCoachFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home_coach, container, false);
         kalendarView = view.findViewById(R.id.kalendarView);
         listView = view.findViewById(R.id.listViewClasses);
+        textviewNameCoach = view.findViewById(R.id.textviewNameCoach);
         kalendarView.setInitialSelectedDate(new Date());
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             currentUserId = currentUser.getUid();
         }
-
-
+        String nameCoach = currentUser.getDisplayName();
+        textviewNameCoach.setText(nameCoach);
         // Khởi tạo danh sách lớp học và biểu đồ
         classList = new ArrayList<>();
         markedDays = new SparseBooleanArray();

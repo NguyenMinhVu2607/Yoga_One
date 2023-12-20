@@ -2,14 +2,14 @@ package com.at17.kma.yogaone.Fragment_Coach;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,19 +17,10 @@ import com.at17.kma.yogaone.Adapter.DetailFragmentStudentAdapter;
 import com.at17.kma.yogaone.Adapter.StudentRequestAdapter;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.at17.kma.yogaone.ModelClassInfo.StudentInfo;
-import com.at17.kma.yogaone.ModelClassInfo.StudentRequestInfo;
 import com.at17.kma.yogaone.R;
-import com.at17.kma.yogaone.RequestStudentFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class DetailClassActivityCoach extends AppCompatActivity {
 
@@ -39,7 +30,7 @@ public class DetailClassActivityCoach extends AppCompatActivity {
     private TextView textteacherName;
 //    private RecyclerView recyclerViewStudents;
     private StudentRequestAdapter studentAdapter;
-
+ImageButton backDetailCoach;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +42,14 @@ public class DetailClassActivityCoach extends AppCompatActivity {
         textClassName = findViewById(R.id.textClassName);
         textDayOfWeek = findViewById(R.id.textDayOfWeek);
         textLocation = findViewById(R.id.textLocation);
+        backDetailCoach = findViewById(R.id.backDetailCoach);
         textteacherName = findViewById(R.id.textteacherName);
-//        recyclerViewStudents = findViewById(R.id.recyclerViewStudents);
-//        displayStudentRequests();
-        // Lấy thông tin từ Intent
-        // Lấy thông tin từ Intent
+       backDetailCoach.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               finish();
+           }
+       });
         DetailFragmentStudentAdapter detailFragmentStudentAdapter  = new DetailFragmentStudentAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPager.setAdapter(detailFragmentStudentAdapter);
         tabLayout.setupWithViewPager(viewPager);

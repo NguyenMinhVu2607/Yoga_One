@@ -1,4 +1,4 @@
-package com.at17.kma.yogaone;
+package com.at17.kma.yogaone.Fragment_Coach;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.at17.kma.yogaone.Adapter.StudentAdapter;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.at17.kma.yogaone.ModelClassInfo.StudentInfo;
+import com.at17.kma.yogaone.R;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 

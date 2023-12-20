@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.at17.kma.yogaone.Fragment_Student.CourseFragment;
 import com.at17.kma.yogaone.Fragment_Student.HomeFragment;
+import com.at17.kma.yogaone.Fragment_Student.ListClassConfirmFragment;
 import com.at17.kma.yogaone.Fragment_Student.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

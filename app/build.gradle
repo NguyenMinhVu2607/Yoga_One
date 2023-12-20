@@ -33,7 +33,9 @@ dependencies {
     //Add Lib CalendarView
     implementation 'com.github.afsalkodasseri:KalendarView:2.3'
     //add lib Round Image
-    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    //Sinh trắc học
+    implementation "androidx.biometric:biometric:1.1.0"
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'

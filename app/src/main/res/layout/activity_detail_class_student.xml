@@ -1,13 +1,54 @@
 <!-- activity_detail_class.xml -->
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#B0D9FA"
     android:orientation="vertical"
-    android:padding="16dp">
+    >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#7ACEF4"
+        android:padding="8dp"
+        android:orientation="horizontal">
 
+        <ImageButton
+            android:id="@+id/backDetail"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:backgroundTint="@null"
+            android:src="@drawable/baseline_arrow_back_ios_new_24"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:text="Detail Class"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/backDetail"
+            app:layout_constraintStart_toEndOf="@+id/backDetail"
+            app:layout_constraintTop_toTopOf="@+id/backDetail" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="right"
+            android:src="@drawable/logoai"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+ <androidx.constraintlayout.widget.ConstraintLayout
+     android:layout_width="match_parent"
+     android:padding="16dp"
+     android:layout_height="match_parent">
     <TextView
         android:id="@+id/textClassNameStudent"
         android:layout_width="match_parent"
@@ -74,3 +115,4 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

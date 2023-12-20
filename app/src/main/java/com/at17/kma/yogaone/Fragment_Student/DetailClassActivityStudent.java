@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class DetailClassActivityStudent extends AppCompatActivity {
     private StudentAdapter listStudentAdapter;
     private boolean isActivityResumed;
     String classId;
+    ImageButton backDetail;
 
 
     @Override
@@ -49,6 +51,7 @@ public class DetailClassActivityStudent extends AppCompatActivity {
         // Ánh xạ các thành phần giao diện
         textClassName = findViewById(R.id.textClassNameStudent);
         textDayOfWeek = findViewById(R.id.textDayOfWeekStudent);
+        backDetail = findViewById(R.id.backDetail);
         textLocation = findViewById(R.id.textLocationStudent);
         textteacherName = findViewById(R.id.textteacherNameStudent);
         addToClassRequest = findViewById(R.id.addToClassRequest);
@@ -65,7 +68,12 @@ public class DetailClassActivityStudent extends AppCompatActivity {
             Toast.makeText(this, "Không có thông tin lớp học", Toast.LENGTH_SHORT).show();
             finish();
         }
-
+        backDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         addToClassRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

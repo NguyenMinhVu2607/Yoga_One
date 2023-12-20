@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -45,6 +46,7 @@ public class HomeFragment extends Fragment {
     private SparseBooleanArray markedDays;
     private FirebaseFirestore fFirestore;
     String uid;
+    TextView textviewNameStudents;
 
 
     @Override
@@ -56,9 +58,12 @@ public class HomeFragment extends Fragment {
 
         kalendarView = view.findViewById(R.id.kalendarViewStudent);
         listView = view.findViewById(R.id.listViewClassesStudent);
+        textviewNameStudents = view.findViewById(R.id.textviewNameStudents);
         kalendarView.setInitialSelectedDate(new Date());
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-
+        String nameStudents = currentUser.getDisplayName();
+        textviewNameStudents.setText(nameStudents);
         // Khởi tạo danh sách lớp học và biểu đồ
         classList = new ArrayList<>();
         markedDays = new SparseBooleanArray();
@@ -72,7 +77,6 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(), "" + i, Toast.LENGTH_SHORT).show();
             }
         });
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             uid = currentUser.getUid();
             loadDataFromFirebase();

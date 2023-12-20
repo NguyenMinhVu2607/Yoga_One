@@ -1,4 +1,4 @@
-package com.at17.kma.yogaone;
+package com.at17.kma.yogaone.Fragment_Coach;
 
 import android.os.Bundle;
 
@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.at17.kma.yogaone.Adapter.StudentRequestAdapter;
 import com.at17.kma.yogaone.ModelClassInfo.StudentRequestInfo;
+import com.at17.kma.yogaone.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;

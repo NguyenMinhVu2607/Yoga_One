@@ -1,19 +1,15 @@
 package com.at17.kma.yogaone.Adapter;
 
 import android.os.Bundle;
-import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.lifecycle.Lifecycle;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.at17.kma.yogaone.ListStudentClassFragment;
-import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
-import com.at17.kma.yogaone.RequestStudentFragment;
+import com.at17.kma.yogaone.Fragment_Coach.ListStudentClassFragment;
+import com.at17.kma.yogaone.Fragment_Coach.RequestStudentFragment;
 
 public class DetailFragmentStudentAdapter extends FragmentStatePagerAdapter {
 
