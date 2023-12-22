@@ -30,7 +30,13 @@
         android:textColor="@android:color/black"/>
 
     <TextView
-        android:id="@+id/timeTextView"
+        android:id="@+id/timeStartTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time Class"
+        android:textColor="@android:color/black"/>
+    <TextView
+        android:id="@+id/timeEndTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Time Class"

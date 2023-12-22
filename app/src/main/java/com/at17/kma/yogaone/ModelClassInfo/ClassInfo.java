@@ -17,6 +17,7 @@ public class ClassInfo {
     private String timeStringStart;
     // Thêm trường students
     private List<StudentInfo> students;
+
     // Constructors
     public ClassInfo() {
         // Default constructor required for Firestore
@@ -35,9 +36,7 @@ public class ClassInfo {
         this.timeStringStart = timeStringStart;
         this.students = students;
     }
-    public ClassInfo(String documentId) {
-        this.documentId = documentId;
-    }
+
     public String getDocumentId() {
         return documentId;
     }
@@ -117,6 +116,7 @@ public class ClassInfo {
     public void setTimeStringStart(String timeStringStart) {
         this.timeStringStart = timeStringStart;
     }
+
     public List<StudentInfo> getStudents() {
         return students;
     }
@@ -124,4 +124,6 @@ public class ClassInfo {
     public void setStudents(List<StudentInfo> students) {
         this.students = students;
     }
+
+
 }

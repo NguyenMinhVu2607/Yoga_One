@@ -96,6 +96,7 @@ public class ListClassConfirmFragment extends Fragment {
                             ClassInfo classInfo = document.toObject(ClassInfo.class);
                             classInfo.setDocumentId(document.getId());
 
+
                             if (classIds.contains(classInfo.getDocumentId())) {
                                 filteredClassList.add(classInfo);
                             }

@@ -1,7 +1,4 @@
 package com.at17.kma.yogaone.Login_Res;
-
-
-
 import static androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG;
 import static androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL;
 
@@ -9,6 +6,8 @@ import android.content.Intent;
 
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
+
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -46,14 +45,21 @@ public class LoginActivity extends AppCompatActivity {
     private Executor executor;
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
+    SharedPreferences sharedPreferences;
+    ImageButton biometricLoginButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+         biometricLoginButton = findViewById(R.id.biometric_login);
+        email = findViewById(R.id.loginEmail);
+        password = findViewById(R.id.loginPassword);
+        loginBtn = findViewById(R.id.loginbtn);
+        gotoRes = findViewById(R.id.gotoRegister);
         //FireBase
         fAuthLogin = FirebaseAuth.getInstance();
         fFirestore = FirebaseFirestore.getInstance();
-        AnhXaView();
+//        AnhXaView();
         BiometricManager biometricManager = BiometricManager.from(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             switch (biometricManager.canAuthenticate(BIOMETRIC_STRONG | DEVICE_CREDENTIAL)) {
@@ -91,8 +97,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthenticationSucceeded(
                     @NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
-                Toast.makeText(getApplicationContext(),
-                        "Authentication succeeded!", Toast.LENGTH_SHORT).show();
+                String email = sharedPreferences.getString("email","");
+                String password = sharedPreferences.getString("password","");
+                LoginFuntion(email,password);
             }
 
             @Override
@@ -113,15 +120,19 @@ public class LoginActivity extends AppCompatActivity {
         // Prompt appears when user clicks "Log in".
         // Consider integrating with the keystore to unlock cryptographic operations,
         // if needed by your app.
-        ImageButton biometricLoginButton = findViewById(R.id.biometric_login);
         biometricLoginButton.setOnClickListener(view -> {
             biometricPrompt.authenticate(promptInfo);
         });
 
 
 
-
-
+        sharedPreferences = getSharedPreferences("dataLogin",MODE_PRIVATE);
+        boolean isLogin = sharedPreferences.getBoolean("isLogin",false);
+        if (isLogin){
+            String email = sharedPreferences.getString("email","");
+            String password = sharedPreferences.getString("password","");
+            biometricLoginButton.setVisibility(View.VISIBLE);
+        }
 
         //Go to Res
         gotoRes.setOnClickListener(new View.OnClickListener() {
@@ -137,25 +148,9 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Call Fun Check Edittext
-                CheckField(email);
-                CheckField(password);
-                Log.d("TAG",""+email.getText().toString());
-                if (valid){
-                    fAuthLogin.signInWithEmailAndPassword(email.getText().toString().trim(),password.getText().toString().trim())
-                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                @Override
-                                public void onSuccess(AuthResult authResult) {
-                                    Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
-                                    checkUserLevelAccess(authResult.getUser().getUid());
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                }
+                String emails = email.getText().toString().trim();
+                String passwords = password.getText().toString().trim();
+                LoginFuntion(emails,passwords);
             }
         });
     }
@@ -177,13 +172,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    public void AnhXaView(){
-        email = findViewById(R.id.loginEmail);
-        password = findViewById(R.id.loginPassword);
-        loginBtn = findViewById(R.id.loginbtn);
-        gotoRes = findViewById(R.id.gotoRegister);
-
-    }
+//    public void AnhXaView(){
+//        email = findViewById(R.id.loginEmail);
+//        password = findViewById(R.id.loginPassword);
+//        loginBtn = findViewById(R.id.loginbtn);
+//        gotoRes = findViewById(R.id.gotoRegister);
+//
+//    }
     public boolean CheckField(EditText textField){
         //Check Edittext
         if (textField.getText().toString().isEmpty()){
@@ -194,8 +189,35 @@ public class LoginActivity extends AppCompatActivity {
         }
         return valid;
     }
+    public void LoginFuntion (String email1, String password1){
+        // Call Fun Check Edittext
+        CheckField(email);
+        CheckField(password);
+        if (valid){
+            fAuthLogin.signInWithEmailAndPassword(email1,password1)
+                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                            SharedPreferences.Editor editor = getSharedPreferences("dataLogin",MODE_PRIVATE).edit();
+                            editor.putString("email", String.valueOf(email));
+                            editor.putString("password", String.valueOf(password));
+                            editor.putBoolean("isLogin",true);
+                            checkUserLevelAccess(authResult.getUser().getUid());
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+
 
     }
+    }
+
+
 //    @Override
 //    protected void onStart() {
 //        super.onStart();

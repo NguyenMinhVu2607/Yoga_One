@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
@@ -23,13 +24,14 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         this.itemClickListener = itemClickListener;
     }
     public class ClassViewHolder extends RecyclerView.ViewHolder {
-        TextView classNameTextView, dayOfWeekTextView, timeTextView, locationTextView, teacherNameTextView;
+        TextView classNameTextView, dayOfWeekTextView, timeStartTextView ,timeEndTextView, locationTextView, teacherNameTextView;
 
         public ClassViewHolder(View itemView) {
             super(itemView);
             classNameTextView = itemView.findViewById(R.id.classNameTextView);
             dayOfWeekTextView = itemView.findViewById(R.id.dayOfWeekTextView);
-            timeTextView = itemView.findViewById(R.id.timeTextView);
+            timeStartTextView = itemView.findViewById(R.id.timeStartTextView);
+            timeEndTextView = itemView.findViewById(R.id.timeEndTextView);
             locationTextView = itemView.findViewById(R.id.locationTextView);
             teacherNameTextView = itemView.findViewById(R.id.teacherNameTextView);
             itemView.setOnClickListener(v -> {
@@ -62,7 +64,8 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         holder.dayOfWeekTextView.setText(TextUtils.join(", ", classInfo.getDayOfWeek()));
         holder.teacherNameTextView.setText(classInfo.getTeacherName());
         holder.locationTextView.setText(classInfo.getLocation());
-        holder.timeTextView.setText(classInfo.getTimeStringEnd());
+        holder.timeStartTextView.setText(classInfo.getTimeStringStart());
+        holder.timeEndTextView.setText(classInfo.getTimeStringEnd());
 
     }
 
