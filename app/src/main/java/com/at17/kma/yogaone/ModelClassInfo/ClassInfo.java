@@ -17,13 +17,31 @@ public class ClassInfo {
     private String timeStringStart;
     // Thêm trường students
     private List<StudentInfo> students;
+    // Trong lớp ClassInfo
+    private boolean conflict;
 
+    public boolean isConflict() {
+        return conflict;
+    }
+
+    public void setConflict(boolean conflict) {
+        this.conflict = conflict;
+    }
+    private int backgroundColor; // Thêm thuộc tính mới
+
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
     // Constructors
     public ClassInfo() {
         // Default constructor required for Firestore
     }
 
-    public ClassInfo(String documentId, String className, List<String> dayOfWeek, long endDay, String location, long startDay, String teacherName, String teacherId, String timeStringEnd, String timeStringStart, List<StudentInfo> students) {
+    public ClassInfo(String documentId, String className, List<String> dayOfWeek, long endDay, String location, long startDay, String teacherName, String teacherId, String timeStringEnd, String timeStringStart, List<StudentInfo> students, boolean conflict) {
         this.documentId = documentId;
         this.className = className;
         this.dayOfWeek = dayOfWeek;
@@ -35,6 +53,7 @@ public class ClassInfo {
         this.timeStringEnd = timeStringEnd;
         this.timeStringStart = timeStringStart;
         this.students = students;
+        this.conflict = conflict;
     }
 
     public String getDocumentId() {

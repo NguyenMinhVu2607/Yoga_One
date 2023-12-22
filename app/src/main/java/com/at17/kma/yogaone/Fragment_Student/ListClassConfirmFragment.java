@@ -53,13 +53,13 @@ public class ListClassConfirmFragment extends Fragment {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             uid = currentUser.getUid();
-            loadDataFromFirebase();
+            loadDataClassAddedFromFirebase();
         }
 
         return view;
     }
 
-    private void loadDataFromFirebase() {
+    private void loadDataClassAddedFromFirebase() {
         DocumentReference documentReference = fFirestore.collection("Users").document(uid);
         documentReference.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

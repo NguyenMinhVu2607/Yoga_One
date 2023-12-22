@@ -73,6 +73,11 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_class, parent, false);
         return new ClassViewHolder(view);
     }
+    // Trong ClassAdapter
+    public int getItemBackgroundColor(int position) {
+        ClassInfo classInfo = classList.get(position);
+        return classInfo.isConflict() ? R.color.conflictColor : android.R.color.transparent;
+    }
 
     @Override
     public void onBindViewHolder(@NonNull ClassViewHolder holder, int position) {
@@ -97,8 +102,31 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
 
         // Đặt giá trị vào TextView
         holder.locationTextView.setText(firstPartOfLocation);
+        int backgroundColor = getItemBackgroundColor(position);
+        holder.itemView.setBackgroundResource(backgroundColor);
+    }
+    public void clear() {
+        classList.clear();
+        notifyDataSetChanged();
     }
 
+    public void addAll(List<ClassInfo> classes) {
+        classList.addAll(classes);
+        notifyDataSetChanged();
+    }
+
+    public void removeItems(List<String> conflictingClassIds) {
+        List<ClassInfo> updatedList = new ArrayList<>();
+
+        for (ClassInfo classInfo : classList) {
+            if (!conflictingClassIds.contains(classInfo.getDocumentId())) {
+                updatedList.add(classInfo);
+            }
+        }
+
+        classList = updatedList;
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         return classList.size();

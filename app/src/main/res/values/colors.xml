@@ -4,5 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="cpp_text">#345779</color>
     <color name="colorBackground">#F8F4E9</color>
+    <color name="conflictColor">#F16464</color>
 
 </resources>
