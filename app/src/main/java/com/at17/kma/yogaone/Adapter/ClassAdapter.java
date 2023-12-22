@@ -14,11 +14,13 @@ import com.at17.kma.yogaone.R;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHolder> {
 
     private List<ClassInfo> classList;
+    private List<ClassInfo> originalList; // Dùng để sao lưu dữ liệu gốc
     private ItemClickListener itemClickListener;
     public void setItemClickListener(ItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
@@ -47,6 +49,22 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
 
     public ClassAdapter(List<ClassInfo> classList) {
         this.classList = classList;
+        this.originalList = new ArrayList<>(classList); // Sao lưu dữ liệu gốc
+    }
+    public void searchClasses(final String keyword) {
+        List<ClassInfo> filteredList = new ArrayList<>();
+        for (ClassInfo classInfo : originalList) {
+            if (classInfo.getClassName().toLowerCase().contains(keyword.toLowerCase()) ||
+                    classInfo.getTeacherName().toLowerCase().contains(keyword.toLowerCase())) {
+                filteredList.add(classInfo);
+            }
+        }
+        filterList(filteredList);
+    }
+
+    public void filterList(List<ClassInfo> filteredList) {
+        classList = filteredList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -63,10 +81,22 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         holder.classNameTextView.setText(classInfo.getClassName());
         holder.dayOfWeekTextView.setText(TextUtils.join(", ", classInfo.getDayOfWeek()));
         holder.teacherNameTextView.setText(classInfo.getTeacherName());
-        holder.locationTextView.setText(classInfo.getLocation());
         holder.timeStartTextView.setText(classInfo.getTimeStringStart());
         holder.timeEndTextView.setText(classInfo.getTimeStringEnd());
+        // Lấy thông tin địa điểm từ đối tượng classInfo
+        String location = classInfo.getLocation();
 
+        // Tìm vị trí của dấu gạch nối hoặc dấu chấm trong địa điểm
+        int separatorIndex = location.indexOf("-");
+        if (separatorIndex == -1) {
+            separatorIndex = location.indexOf(".");
+        }
+
+        // Lấy phần đầu tiên của địa điểm
+        String firstPartOfLocation = (separatorIndex != -1) ? location.substring(0, separatorIndex).trim() : location;
+
+        // Đặt giá trị vào TextView
+        holder.locationTextView.setText(firstPartOfLocation);
     }
 
     @Override

@@ -2,15 +2,20 @@ package com.at17.kma.yogaone.Fragment_Student;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.animsh.materialsearchbar.MaterialSearchBar;
+import com.animsh.materialsearchbar.SimpleOnSearchActionListener;
 import com.at17.kma.yogaone.Adapter.ClassAdapter;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.at17.kma.yogaone.R;
@@ -29,13 +34,8 @@ public class CourseFragment extends Fragment {
     private FloatingActionButton btnAddClass;
     private List<ClassInfo> classList;
     private ClassAdapter classAdapter;
+    private MaterialSearchBar materialSearchBar;
 
-
-    //    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,6 +43,24 @@ public class CourseFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_course, container, false);
         classList = new ArrayList<>();
         classAdapter = new ClassAdapter(classList); // You should adjust the constructor based on your ClassAdapter implementation
+        materialSearchBar = view.findViewById(R.id.materialSearchBar);
+        materialSearchBar.addTextChangeListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString().trim());
+
+            }
+        });
 
         recyclerView = view.findViewById(R.id.recyclerViewClassesStudent);
         recyclerView.setAdapter(classAdapter);
@@ -52,7 +70,18 @@ public class CourseFragment extends Fragment {
         loadDataFromFirebase();
         return view;
     }
+    private void filter(String text) {
+        List<ClassInfo> filteredList = new ArrayList<>();
 
+        for (ClassInfo classInfo : classList) {
+            if (classInfo.getClassName().toLowerCase().contains(text.toLowerCase()) ||
+                    classInfo.getTeacherName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(classInfo);
+            }
+        }
+
+        classAdapter.filterList(filteredList);
+    }
     private void loadDataFromFirebase() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -76,15 +105,9 @@ public class CourseFragment extends Fragment {
     private void setupRecyclerViewClickListener() {
         classAdapter.setItemClickListener(classInfo -> {
             Intent intent = new Intent(getActivity(), DetailClassActivityStudent.class);
-            intent.putExtra("idClass", classInfo.getDocumentId());
-            Log.d("idClass3",""+ classInfo.getDocumentId());
+            intent.putExtra("idClassSTD", classInfo.getDocumentId());
+            Log.d("idClassSTD",""+ classInfo.getDocumentId());
             startActivity(intent);
-//            Bundle bundle = new Bundle();
-//            bundle.putString("idClass", classInfo.getDocumentId());
-//
-//// Nếu bạn đang làm việc trong Fragment:
-//            RequestStudentFragment fragment = new RequestStudentFragment();
-//            fragment.setArguments(bundle);
 
 
         });

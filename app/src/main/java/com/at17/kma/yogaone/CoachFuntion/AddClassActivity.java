@@ -2,6 +2,7 @@ package com.at17.kma.yogaone.CoachFuntion;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -31,8 +32,9 @@ import java.util.List;
 import java.util.Map;
 
 public class AddClassActivity extends AppCompatActivity {
+    private Spinner locationSpinner;
 
-    private EditText classNameEditText, teacherNameEditText, locationEditText;
+    private EditText classNameEditText, locationEditText;
     private TimePicker startTimePicker, endTimePicker;
     private DatePicker startDatePicker, endDatePicker;
     private CheckBox checkboxMonday,checkboxTuesday,checkboxWednesday,checkboxThursday,checkboxFriday,checkboxSaturday,checkboxSunday;
@@ -40,23 +42,32 @@ public class AddClassActivity extends AppCompatActivity {
     private List<CheckBox> dayCheckBoxes;
     private FirebaseAuth auth;
     private  String name,teacherUID;
+    private Button buttonShowTimeFields;
+    LinearLayoutCompat layoutTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_class);
-        auth =FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
+
         // Ánh xạ các thành phần từ layout
+        buttonShowTimeFields = findViewById(R.id.buttonShowTimeFields);
+        buttonShowTimeFields.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Toggle visibility of time-related fields
+                toggleTimeFieldsVisibility();
+            }
+        });
+        layoutTime = findViewById(R.id.layoutTime);
         classNameEditText = findViewById(R.id.editTextClassName);
-        teacherNameEditText = findViewById(R.id.editTextTeacherName);
-        locationEditText = findViewById(R.id.editTextLocation);
+        locationSpinner = findViewById(R.id.spinnerLocation); // Thêm Spinner cho việc chọn địa điểm
         startTimePicker = findViewById(R.id.timePickerStartTime);
         endTimePicker = findViewById(R.id.timePickerEndTime);
         startDatePicker = findViewById(R.id.datePickerStartDate);
         endDatePicker = findViewById(R.id.datePickerEndDate);
-//        scheduleSpinner = findViewById(R.id.spinnerSchedule);
         addButton = findViewById(R.id.buttonAddClass);
-        //
-
 
         checkboxMonday = findViewById(R.id.checkboxMonday);
         checkboxTuesday = findViewById(R.id.checkboxTuesday);
@@ -75,45 +86,28 @@ public class AddClassActivity extends AppCompatActivity {
         dayCheckBoxes.add(checkboxSaturday);
         dayCheckBoxes.add(checkboxSunday);
 
-        // Thiết lập Spinner cho thời gian học trong tuần
-//        setupScheduleSpinner();
-
-        // Xử lý sự kiện khi nhấn nút "Thêm lớp học"
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if( checkInfoClass()){
+                if (checkInfoClass()) {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     if (user != null) {
-                        // Name, email address, and profile photo Url
                         name = user.getDisplayName();
                         teacherUID = user.getUid();
-
-
                     }
-                    // Lấy thông tin từ các thành phần nhập liệu
+
                     String className = classNameEditText.getText().toString();
                     String teacherName = name;
                     String teacherId = teacherUID;
-                    String location = locationEditText.getText().toString();
+                    String location = locationSpinner.getSelectedItem().toString(); // Lấy giá trị từ Spinner
                     int startHour = startTimePicker.getHour();
                     int startMinute = startTimePicker.getMinute();
                     int endHour = endTimePicker.getHour();
                     int endMinute = endTimePicker.getMinute();
-//                String selectedDay = scheduleSpinner.getSelectedItem().toString();
 
+                    String timeStringEnd = String.format("%02d:%02d", endHour, endMinute);
+                    String timeStringStart = String.format("%02d:%02d", startHour, startMinute);
 
-                    //Set giờ và phút
-                    // Lấy giờ và phút từ TimePicker
-                    int hourEnd = endTimePicker.getHour();
-                    int minuteEnd = endTimePicker.getMinute();
-                    int hourStart = startTimePicker.getHour();
-                    int minuteStart = startTimePicker.getMinute();
-
-                    // Chuyển đổi thành chuỗi
-                    String timeStringEnd = String.format("%02d:%02d", hourEnd, minuteEnd);
-                    String timeStringStart = String.format("%02d:%02d", hourStart, minuteStart);
-                    // Lấy thông tin từ DatePicker
                     int startYear = startDatePicker.getYear();
                     int startMonth = startDatePicker.getMonth();
                     int startDay = startDatePicker.getDayOfMonth();
@@ -121,14 +115,11 @@ public class AddClassActivity extends AppCompatActivity {
                     int endMonth = endDatePicker.getMonth();
                     int endDay = endDatePicker.getDayOfMonth();
 
-                    //
                     List<String> selectedDays = getSelectedDays();
-                    Log.d("TAG","selectedDays :"+selectedDays) ;
-                    // Thêm thông tin lớp học vào Firestore
-                    addClassToFirestore(teacherId,className, teacherName, location,timeStringEnd,timeStringStart, startYear, startMonth, startDay, startHour, startMinute, endYear, endMonth, endDay, endHour, endMinute, selectedDays);
 
+                    addClassToFirestore(teacherId, className, teacherName, location, timeStringEnd, timeStringStart, startYear, startMonth, startDay, startHour, startMinute, endYear, endMonth, endDay, endHour, endMinute, selectedDays);
                 }
-               }
+            }
         });
     }
     public boolean checkInfoClass() {
@@ -139,7 +130,7 @@ public class AddClassActivity extends AppCompatActivity {
         String className = classNameEditText.getText().toString().trim();
         String teacherName = name;
         String teacherId = teacherUID;
-        String location = locationEditText.getText().toString().trim();
+        String location = locationSpinner.getSelectedItem().toString().trim();
 
         if (isEmptyOrNull(className) || isEmptyOrNull(teacherName) || isEmptyOrNull(teacherId) || isEmptyOrNull(location)) {
             Toast.makeText(AddClassActivity.this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
@@ -233,7 +224,11 @@ public class AddClassActivity extends AppCompatActivity {
                     }
                 });
     }
+    private void toggleTimeFieldsVisibility() {
+        int visibility = layoutTime.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE;
 
+        layoutTime.setVisibility(visibility);
+    }
     private long getDateTimeInMillis(int year, int month, int day, int hour, int minute) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day, 0, 0, 0); // Đặt giờ và phút thành 0 để chỉ lưu ngày tháng năm

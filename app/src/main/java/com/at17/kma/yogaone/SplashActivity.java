@@ -33,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
                 Intent i = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(i);
             }
-        }, 1000); // you can increase or decrease the timelimit of your screen
+        }, 1500); // you can increase or decrease the timelimit of your screen
     }
     @Override
     protected void onStart() {

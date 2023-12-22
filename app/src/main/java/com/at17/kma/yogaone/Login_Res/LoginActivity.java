@@ -172,13 +172,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-//    public void AnhXaView(){
-//        email = findViewById(R.id.loginEmail);
-//        password = findViewById(R.id.loginPassword);
-//        loginBtn = findViewById(R.id.loginbtn);
-//        gotoRes = findViewById(R.id.gotoRegister);
-//
-//    }
     public boolean CheckField(EditText textField){
         //Check Edittext
         if (textField.getText().toString().isEmpty()){
@@ -198,7 +191,6 @@ public class LoginActivity extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
-                            Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                             SharedPreferences.Editor editor = getSharedPreferences("dataLogin",MODE_PRIVATE).edit();
                             editor.putString("email", String.valueOf(email));
                             editor.putString("password", String.valueOf(password));
@@ -215,28 +207,5 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
-    }
+}
 
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-//            DocumentReference documentReference = fFirestore.collection("Users").document(FirebaseAuth.getInstance().getUid());
-//            documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                @Override
-//                public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                    Log.d("tag",""+documentSnapshot.getData());
-//                    if(documentSnapshot.getString("isUser") != null ){
-//                        // If User is HV
-//                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-//                        finish();
-//                    } else if (documentSnapshot.getString("isCoach") != null){
-//                        // If User is Coach
-//                        startActivity(new Intent(getApplicationContext(), CoachActivity.class));
-//                        finish();
-//                    }
-//                }
-//            });
-//        }
-//    }

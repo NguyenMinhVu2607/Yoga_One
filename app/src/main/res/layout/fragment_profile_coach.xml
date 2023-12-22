@@ -17,12 +17,13 @@
         android:layout_gravity="center"/>
 
     <!-- TextViews to display user information -->
+
     <TextView
         android:id="@+id/usernameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="Username"/>
+        android:text="Username"
+        android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/emailTextView"

@@ -6,4 +6,18 @@
     </style>
 
     <style name="Theme.YogaOne" parent="Base.Theme.YogaOne" />
+    <style name="MyCustomTheme" parent="MaterialSearchBarLight">
+        <item name="mt_searchBarColor">@color/colorBackground</item>
+        <item name="mt_dividerColor">@color/cpp_text</item>
+        <item name="mt_navIconTint">@color/cpp_text</item>
+        <item name="mt_searchIconTint">@color/cpp_text</item>
+        <item name="mt_clearIconTint">@color/cpp_text</item>
+        <item name="mt_menuIconTint">@color/cpp_text</item>
+        <item name="mt_backIconTint">@color/cpp_text</item>
+        <item name="mt_textCursorTint">@color/cpp_text</item>
+        <item name="mt_textColor">@color/cpp_text</item>
+        <item name="mt_hintColor">@color/cpp_text</item>
+        <item name="mt_placeholderColor">@color/cpp_text</item>
+        <item name="mt_highlightedTextColor">@color/cpp_text</item>
+    </style>
 </resources>

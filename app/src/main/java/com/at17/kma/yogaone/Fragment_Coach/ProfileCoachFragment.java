@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.at17.kma.yogaone.Login_Res.LoginActivity;
 import com.at17.kma.yogaone.R;
+import com.at17.kma.yogaone.SplashActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -36,7 +37,7 @@ public class ProfileCoachFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getContext(), LoginActivity.class));
+                startActivity(new Intent(getContext(), SplashActivity.class));
             }
         });
         loadUserInfo();

@@ -6,6 +6,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 
 import com.at17.kma.yogaone.Adapter.DetailFragmentStudentAdapter;
 import com.at17.kma.yogaone.Adapter.StudentRequestAdapter;
+import com.at17.kma.yogaone.AddressListActivity;
+import com.at17.kma.yogaone.MapActivity;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.at17.kma.yogaone.ModelClassInfo.StudentInfo;
 import com.at17.kma.yogaone.R;
@@ -50,6 +53,15 @@ ImageButton backDetailCoach;
                finish();
            }
        });
+//        textLocation.setOnClickListener(new View.OnClickListener() {
+//            String addresses = textLocation.getText().toString().trim();
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+//                intent.putExtra("addresses", addresses);
+//                startActivity(intent);
+//            }
+//        });
         DetailFragmentStudentAdapter detailFragmentStudentAdapter  = new DetailFragmentStudentAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPager.setAdapter(detailFragmentStudentAdapter);
         tabLayout.setupWithViewPager(viewPager);

@@ -26,17 +26,38 @@
             android:visibility="gone"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"/>
-
-        <EditText
-            android:id="@+id/editTextLocation"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Vị trí học"
-            android:layout_below="@+id/editTextTeacherName"
+            android:layout_below="@+id/editTextLocation"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"/>
+            android:text="Chọn cơ sở dạy học "/>
+        <Spinner
+            android:id="@+id/spinnerLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:entries="@array/location_array"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+        />
 
+        <Button
+            android:id="@+id/buttonShowTimeFields"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinnerSchedule"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="Hiển thị khung thời gian"/>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layoutTime"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <!-- Thêm EditText cho Thời gian bắt đầu -->
         <TextView
             android:id="@+id/textViewStartTime"
@@ -160,7 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chủ Nhật"/>
-
+        </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
 <!--        <Spinner-->
 <!--            android:id="@+id/spinnerSchedule"-->

@@ -187,7 +187,7 @@ public class HomeCoachFragment extends Fragment {
 
                     // Hiển thị thông tin lớp học trong ListView
                     listViewAdapter.add(
-                            className + " - " + teacherName + "\n"
+                            "\uD83D\uDCBB "+className + " - " + teacherName + "\n"
                                     + "Địa điểm: " + location + "\n"
                                     +  startTimeClass + " - " + endTimeClass + "\n"
 
