@@ -37,6 +37,7 @@
             app:layout_constraintTop_toTopOf="@+id/backDetail" />
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/openBrowserButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="right"
@@ -46,22 +47,51 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
  <androidx.constraintlayout.widget.ConstraintLayout
+     android:id="@+id/layoutInfo"
      android:layout_width="match_parent"
      android:padding="16dp"
      android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/textClassNameStudent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Class Name" />
+     <TextView
+         android:id="@+id/classStatus"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:textColor="@color/conflictColor"
+         android:textSize="12sp"
+         android:textStyle="italic"
+         android:gravity="right"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+         tools:text="Bạn có thể gửi yêu cầu tham gia lớp học này ❗" />
 
-    <TextView
+     <TextView
+         android:id="@+id/classRecomment"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="18dp"
+         android:gravity="right"
+         android:textColor="@color/conflictColor"
+         android:textSize="12sp"
+         android:textStyle="italic"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+         tools:text="Click vào nút bên dưới để có thể về đội của nhà Yoga Kma ❗" />
+
+     <TextView
+         android:id="@+id/textClassNameStudent"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="48dp"
+         android:textColor="@color/black"
+         android:textSize="18sp"
+         android:textStyle="bold"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+         tools:text="Class Name" />
+
+     <TextView
         android:id="@+id/textDayOfWeekStudent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,18 +125,18 @@
         tools:text="teacherName" />
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerviewListStudent1"
-        android:layout_width="371dp"
-        android:layout_height="460dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/addToClassRequest"
-        app:layout_constraintTop_toBottomOf="@+id/textDayOfWeekStudent"
-        app:layout_constraintVertical_bias="0.2"
-        tools:layout_editor_absoluteX="5dp"
-        tools:listitem="@layout/student_item" />
+     <androidx.recyclerview.widget.RecyclerView
+         android:id="@+id/recyclerviewListStudent1"
+         android:layout_width="371dp"
+         android:layout_height="460dp"
+         android:layout_marginTop="12dp"
+         app:layout_constraintBottom_toTopOf="@+id/addToClassRequest"
+         app:layout_constraintTop_toBottomOf="@+id/textDayOfWeekStudent"
+         app:layout_constraintVertical_bias="0.0"
+         tools:layout_editor_absoluteX="4dp"
+         tools:listitem="@layout/student_item" />
 
-    <Button
+     <Button
         android:id="@+id/addToClassRequest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

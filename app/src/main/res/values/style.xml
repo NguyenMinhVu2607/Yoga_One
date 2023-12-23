@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="WeekTextStyle">
+        <item name="android:textColor">
+            #CE2424
+        </item>
+        <!-- Các thuộc tính văn bản khác nếu cần -->
+    </style>
+</resources>

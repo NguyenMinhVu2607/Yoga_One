@@ -1,10 +1,12 @@
 package com.at17.kma.yogaone.Fragment_Student;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,6 +20,7 @@ import com.at17.kma.yogaone.Adapter.StudentAdapter;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.at17.kma.yogaone.ModelClassInfo.StudentInfo;
 import com.at17.kma.yogaone.R;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -29,9 +32,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class DetailClassActivityStudent extends AppCompatActivity {
 
     private TextView textClassName;
+    CircleImageView openBrowserButton;
+    private TextView classStatus,classRecomment;
     private TextView textDayOfWeek;
     private TextView textLocation;
     private TextView textteacherName;
@@ -41,6 +48,7 @@ public class DetailClassActivityStudent extends AppCompatActivity {
     private boolean isActivityResumed;
     String classId;
     ImageButton backDetail;
+    ConstraintLayout layoutInfo;
 
 
     @Override
@@ -49,7 +57,13 @@ public class DetailClassActivityStudent extends AppCompatActivity {
         setContentView(R.layout.activity_detail_class_student);
 
         // Ánh xạ các thành phần giao diện
+        openBrowserButton = findViewById(R.id.openBrowserButton);
+
         textClassName = findViewById(R.id.textClassNameStudent);
+        textClassName = findViewById(R.id.textClassNameStudent);
+        classStatus = findViewById(R.id.classStatus);
+        classRecomment = findViewById(R.id.classRecomment);
+        layoutInfo = findViewById(R.id.layoutInfo);
         textDayOfWeek = findViewById(R.id.textDayOfWeekStudent);
         backDetail = findViewById(R.id.backDetail);
         textLocation = findViewById(R.id.textLocationStudent);
@@ -59,6 +73,8 @@ public class DetailClassActivityStudent extends AppCompatActivity {
 
         // Lấy thông tin từ Intent
         Intent intent = getIntent();
+        boolean isConflict = getIntent().getBooleanExtra("isConflict", false);
+
         if (intent != null && intent.hasExtra("idClassSTD")) {
              classId = intent.getStringExtra("idClassSTD");
             // Gọi hàm để lấy thông tin từ Firestore
@@ -67,6 +83,19 @@ public class DetailClassActivityStudent extends AppCompatActivity {
             // Xử lý khi không có dữ liệu từ Intent
             Toast.makeText(this, "Không có thông tin lớp học", Toast.LENGTH_SHORT).show();
             finish();
+        }
+        if(!isConflict){
+            classStatus.setText("Bạn có thể gửi yêu cầu tham gia lớp học này ❗");
+            classRecomment.setText("Click vào nút bên dưới để có thể về đội của nhà Yoga Kma❗");
+            classStatus.setTextColor(R.color.cpp_text);
+            classRecomment.setTextColor(R.color.cpp_text);
+
+
+        } else {
+            classStatus.setText("Lớp học này đã trùng lịch bạn không thể tham gia lớp học này ❗");
+            classRecomment.setText("Vui lòng chọn sang 1 lớp khác để có thể tham gia vào lớp học ❗");
+
+
         }
         backDetail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +106,21 @@ public class DetailClassActivityStudent extends AppCompatActivity {
         addToClassRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendJoinRequest(classId);
+                if(!isConflict){
+                    sendJoinRequest(classId);
+                } else {
+                    Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Lớp học này đã bị trùng lịch ❗", Snackbar.LENGTH_LONG);
+                    snackbar.show();;
+                }
+            }
+        });
+        openBrowserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Mở trình duyệt với liên kết https://actvn.edu.vn/
+                String url = "https://actvn.edu.vn/";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
             }
         });
     }

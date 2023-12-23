@@ -1,6 +1,7 @@
 package com.at17.kma.yogaone.Adapter;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +77,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
     // Trong ClassAdapter
     public int getItemBackgroundColor(int position) {
         ClassInfo classInfo = classList.get(position);
-        return classInfo.isConflict() ? R.color.conflictColor : android.R.color.transparent;
+        return classInfo.isConflict() ? R.color.conflictColor : R.color.colorBackground;
     }
 
     @Override
@@ -103,6 +104,9 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         // Đặt giá trị vào TextView
         holder.locationTextView.setText(firstPartOfLocation);
         int backgroundColor = getItemBackgroundColor(position);
+        String hexColor = "#" + Integer.toHexString(backgroundColor);
+        Log.d("Color", "Hex Color: " + hexColor);
+
         holder.itemView.setBackgroundResource(backgroundColor);
     }
     public void clear() {

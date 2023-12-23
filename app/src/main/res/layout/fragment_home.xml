@@ -5,81 +5,101 @@
     android:orientation="vertical"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <!-- AppBarLayout contains Toolbar -->
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#7ACEF4"
-        android:padding="6dp"
-        android:orientation="horizontal">
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/imageView1"
-            android:src="@drawable/logoai"
-            android:layout_height="35dp"
-            android:layout_width="35dp"
-             />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    <!--    &lt;!&ndash; AppBarLayout contains Toolbar &ndash;&gt;-->
+    <!--    <androidx.appcompat.widget.LinearLayoutCompat-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="#7ACEF4"-->
+    <!--        android:padding="6dp"-->
+    <!--        android:orientation="horizontal">-->
+    <!--        <de.hdodenhof.circleimageview.CircleImageView-->
+    <!--            xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--            android:id="@+id/imageView1"-->
+    <!--            android:src="@drawable/logoai"-->
+    <!--            android:layout_height="35dp"-->
+    <!--            android:layout_width="35dp"-->
+    <!--             />-->
+    <!--    </androidx.appcompat.widget.LinearLayoutCompat>-->
+    <!--    -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="20dp"
+        android:text="YogaOne"
+        android:fontFamily="@font/rem_extrabold"
+        android:textSize="24sp"
+        android:textColor="#D42323">
+    </TextView>
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="6dp"
-        android:layout_marginTop="30dp"
+        android:padding="12dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
         <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:src="@drawable/user"
             android:layout_height="40dp"
             android:layout_width="40dp"
-             />
+            android:layout_gravity="center"/>
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/textviewNameStudents"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name Student"
-                android:textSize="16dp"
-                android:textStyle="bold"
+                android:textSize="16sp"
+                android:fontFamily="@font/rem_extrabold"
                 android:textColor="@color/black"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Student"
-                android:textSize="14dp"
+                android:text="Học viên"
+                android:textSize="14sp"
+                android:fontFamily="@font/rem_bold"
                 android:textColor="@color/black"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
-    <!-- Content Layout -->
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:orientation="vertical"
-        android:layout_marginTop="16dp">
 
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="15dp">
         <!-- Your KalendarView -->
         <com.ak.KalendarView
             android:id="@+id/kalendarViewStudent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:calendarBackground="#FFFFFF"
-            app:todayDateColor="#E91E63"
-            />
+            app:dateFontFamily="@font/rem_regular"
+            app:weekFontFamily="@font/rem_extrabold"
+            app:monthFontFamily="@font/rem_extrabold"
+            app:weekTextStyle="@style/WeekTextStyle" />
+    </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="16dp">
         <!-- Your ListView -->
         <ListView
             android:id="@+id/listViewClassesStudent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/kalendarView"
-            android:background="@color/black"
-            android:layout_marginTop="16dp" />
+            android:background="#959595" />
+    </androidx.cardview.widget.CardView>
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.appcompat.widget.LinearLayoutCompat>

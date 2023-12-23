@@ -98,6 +98,8 @@ public class CourseFragment extends Fragment {
                         // Gọi hàm loadDataFromFirebase với danh sách classIds để lấy thông tin chi tiết các lớp đã tham gia
                         loadDataFromFirebase(classIds);
                     } else {
+                        // Nếu danh sách lớp đã tham gia trống, vẫn gọi loadDataFromFirebase với danh sách rỗng
+                        loadDataFromFirebase(new ArrayList<>());
                         Log.d("TAG", "Field 'ListClassAdded' does not exist");
                     }
                 } else {
@@ -107,7 +109,8 @@ public class CourseFragment extends Fragment {
                 Log.d("TAG", "Error getting documents: ", task.getException());
             }
         });
-    }
+    };
+
 
     private List<String> getClassIdsFromDocument(DocumentSnapshot document) {
         List<String> classIds = new ArrayList<>();
@@ -135,7 +138,7 @@ public class CourseFragment extends Fragment {
                         Log.d("Conflicting Classes", conflictingClassIds.toString());
 
                         // Làm mới dữ liệu trong adapter với danh sách mới
-                        updateClassAdapterWithNewData(allClasses);
+                        updateClassAdapterWithNewData(allClasses, conflictingClassIds);
                     } else {
                         Log.w("Firestore", "Error getting documents.", task.getException());
                     }
@@ -152,20 +155,23 @@ public class CourseFragment extends Fragment {
         return allClasses;
     }
 
-    private void updateClassAdapterWithNewData(List<ClassInfo> allClasses) {
+    private void updateClassAdapterWithNewData(List<ClassInfo> allClasses, List<String> conflictingClassIds) {
         classAdapter.clear();
         classAdapter.addAll(allClasses);
 
         // Đặt màu nền cho các lớp trùng lịch
         for (ClassInfo classInfo : allClasses) {
-            if (classInfo.isConflict()) {
+            if (conflictingClassIds.contains(classInfo.getDocumentId())) {
                 // Đặt màu nền cho các lớp trùng lịch (màu hồng, ví dụ)
-                // Lưu ý: Bạn có thể thay đổi màu nền tùy thuộc vào yêu cầu của bạn
                 classInfo.setBackgroundColor(R.color.conflictColor);
 
-                // Đặt Log để kiểm tra các lớp đã trùng lịch
+                // Đặt Log để kiểm tra các lớp đã trùng lịch và in màu hồng
                 Log.d("Conflict", "Class ID: " + classInfo.getDocumentId() +
-                        ", Class Name: " + classInfo.getClassName());
+                        ", Class Name: " + classInfo.getClassName(), new Exception("Đặt màu nền"));
+
+                // Có thể sử dụng Logcat với màu để làm cho log dễ nhìn hơn
+                // Log.wtf("Conflict", "Class ID: " + classInfo.getDocumentId() +
+                //         ", Class Name: " + classInfo.getClassName(), new Exception("Đặt màu nền"));
             }
         }
 
@@ -199,9 +205,13 @@ public class CourseFragment extends Fragment {
         for (ClassInfo otherClass : allClasses) {
             if (!otherClass.getDocumentId().equals(classId) && haveScheduleConflict(addedClass, otherClass)) {
                 conflictingClassIds.add(otherClass.getDocumentId());
+                // Đặt giá trị isConflict cho cả hai lớp
+                addedClass.setConflict(true);
+                otherClass.setConflict(true);
             }
         }
     }
+
 
     private boolean haveScheduleConflict(ClassInfo class1, ClassInfo class2) {
         long addedClassStartDay = class1.getStartDay();
@@ -237,6 +247,7 @@ public class CourseFragment extends Fragment {
         classAdapter.setItemClickListener(classInfo -> {
             Intent intent = new Intent(getActivity(), DetailClassActivityStudent.class);
             intent.putExtra("idClassSTD", classInfo.getDocumentId());
+            intent.putExtra("isConflict", classInfo.isConflict()); // Thêm dòng này để truyền giá trị isConflict
             Log.d("idClassSTD", "" + classInfo.getDocumentId());
             startActivity(intent);
         });

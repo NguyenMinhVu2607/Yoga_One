@@ -6,61 +6,208 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="12dp"
+    android:background="@color/white"
     tools:context=".Login_Res.ResActivity">
-    <EditText
-        android:id="@+id/registerName"
-        android:backgroundTint="@null"
-        android:hint="Nhập tên của bạn"
-        android:background="@null"
-        android:layout_margin="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:hint="Nhập Email"
-        android:id="@+id/registerEmail"
-        android:inputType="textEmailAddress"
-        android:background="@null"
-        android:layout_margin="12dp"
 
-        android:layout_height="wrap_content"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:hint="Nhập mật khẩu"
-        android:inputType="textPassword"
-        android:id="@+id/registerPassword"
-        android:background="@null"
-        android:layout_margin="12dp"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="12dp"
+        android:fontFamily="@font/rem_extrabold"
+        android:text="YogaOne"
+        android:textColor="#D42323"
+        android:textSize="40sp"/>
 
-        android:layout_height="wrap_content"/>
-    <EditText
-        android:id="@+id/registerConfirmPassword"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="@font/rem_bold"
+        android:text="Tạo một tài khoản"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="12dp"
+        android:fontFamily="@font/rem_bold"
+        android:text="Họ và tên"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Confirm Password"
-        android:background="@null"
-        android:layout_margin="12dp"
-        android:inputType="textPassword"/>
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:fontFamily="@font/rem_bold">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:hint="Phone"
-        android:inputType="phone"
-        android:id="@+id/registerPhone"
-        android:background="@null"
-        android:layout_margin="12dp"
+        <EditText
+            android:id="@+id/registerName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/input_background"
+            android:fontFamily="@font/rem_regular"
+            android:padding="12dp"
+            android:textColor="@color/black"
+            android:textSize="16dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        android:layout_height="wrap_content"/>
-    <Button
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="12dp"
+        android:fontFamily="@font/rem_bold"
+        android:text="Email"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:text="Resgister"
-        android:id="@+id/registerbtn"
-        android:layout_margin="12dp"
-        android:layout_height="wrap_content"/>
-    <Button
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:fontFamily="@font/rem_bold">
+        <EditText
+            android:id="@+id/registerEmail"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:padding="12dp"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/input_background"
+            android:fontFamily="@font/rem_regular"
+            android:textSize="16dp"
+            android:textColor="@color/black"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="12dp"
+        android:fontFamily="@font/rem_bold"
+        android:text="Mật khẩu"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:text="Go To Login"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        app:endIconMode="password_toggle"
+        app:endIconTint="@color/black"
+        android:fontFamily="@font/rem_bold">
+        <EditText
+            android:id="@+id/registerPassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:padding="12dp"
+            android:inputType="textPassword"
+            android:background="@drawable/input_background"
+            android:fontFamily="@font/rem_regular"
+            android:textSize="16dp"
+            android:textColor="@color/black"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="12dp"
+        android:fontFamily="@font/rem_bold"
+        android:text="Nhập lại mật khẩu"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        app:endIconMode="password_toggle"
+        app:endIconTint="@color/black"
+        android:fontFamily="@font/rem_bold">
+        <EditText
+            android:id="@+id/registerConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:padding="12dp"
+            android:inputType="textPassword"
+            android:background="@drawable/input_background"
+            android:fontFamily="@font/rem_regular"
+            android:textSize="16dp"
+            android:textColor="@color/black"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="12dp"
+        android:fontFamily="@font/rem_bold"
+        android:text="Số điện thoại"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:fontFamily="@font/rem_bold">
+        <EditText
+            android:id="@+id/registerPhone"
+            android:inputType="phone"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:padding="12dp"
+            android:background="@drawable/input_background"
+            android:fontFamily="@font/rem_regular"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="12dp"
+        app:cardCornerRadius="12dp">
+        <Button
+            android:id="@+id/registerbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#D42323"
+            android:fontFamily="@font/rem_bold"
+            android:text="Đăng kí"
+            android:textAllCaps="false"
+            />
+    </androidx.cardview.widget.CardView>
+
+    <Button
         android:id="@+id/gotoLogin"
-        android:layout_margin="12dp"
-        android:layout_height="wrap_content"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/rem_bold"
+        android:textColor="@color/black"
+        android:textAllCaps="false"
+        android:text="Đã có tài khoản? Đăng nhập" />
 </androidx.appcompat.widget.LinearLayoutCompat>
