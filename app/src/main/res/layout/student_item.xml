@@ -5,17 +5,38 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@color/white"
-    android:padding="16dp">
-
+    android:layout_marginTop="6dp"
+    android:background="@drawable/custom_itemclass_ok"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp">
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/openBrowserButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="right"
+        android:src="@drawable/icon_profile"
+     />
     <TextView
         android:id="@+id/textStudentName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center_vertical"
         android:textColor="@color/black"
         tools:text="Student Name" />
-
+</androidx.appcompat.widget.LinearLayoutCompat>
+    <View
+        android:layout_width="match_parent"
+        android:background="#7E7C7C"
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        android:layout_height="1dp"/>
     <!-- Thêm các thành phần khác cần thiết cho sinh viên (id, status, etc.) -->
 
 </LinearLayout>

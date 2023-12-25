@@ -11,7 +11,10 @@ import android.os.Bundle;
 // AddressListActivity.java
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.at17.kma.yogaone.Adapter.AddressAdapter;
@@ -31,6 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AddressListActivity extends AppCompatActivity {
+    ImageButton backAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,7 @@ public class AddressListActivity extends AppCompatActivity {
 
         // Hiển thị danh sách địa chỉ trong RecyclerView
         RecyclerView recyclerView = findViewById(R.id.addressRecyclerView);
+        backAddress = findViewById(R.id.backAddress);
         AddressAdapter adapter = new AddressAdapter(addressesList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -53,6 +58,12 @@ public class AddressListActivity extends AppCompatActivity {
             public void onItemClick(String address) {
                 Toast.makeText(AddressListActivity.this, "FFF", Toast.LENGTH_SHORT).show();
                 openMapActivity(AddressListActivity.this, address);
+            }
+        });
+        backAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 

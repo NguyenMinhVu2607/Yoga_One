@@ -6,22 +6,6 @@
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!--    &lt;!&ndash; AppBarLayout contains Toolbar &ndash;&gt;-->
-    <!--    <androidx.appcompat.widget.LinearLayoutCompat-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:background="#7ACEF4"-->
-    <!--        android:padding="6dp"-->
-    <!--        android:orientation="horizontal">-->
-    <!--        <de.hdodenhof.circleimageview.CircleImageView-->
-    <!--            xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--            android:id="@+id/imageView1"-->
-    <!--            android:src="@drawable/logoai"-->
-    <!--            android:layout_height="35dp"-->
-    <!--            android:layout_width="35dp"-->
-    <!--             />-->
-    <!--    </androidx.appcompat.widget.LinearLayoutCompat>-->
-    <!--    -->
 
     <TextView
         android:layout_width="wrap_content"

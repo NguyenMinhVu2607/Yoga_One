@@ -77,7 +77,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
     // Trong ClassAdapter
     public int getItemBackgroundColor(int position) {
         ClassInfo classInfo = classList.get(position);
-        return classInfo.isConflict() ? R.color.conflictColor : R.color.colorBackground;
+        return classInfo.isConflict() ? R.drawable.custom_itemclass_nook : R.drawable.custom_itemclass_ok;
     }
 
     @Override
@@ -87,8 +87,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         holder.classNameTextView.setText(classInfo.getClassName());
         holder.dayOfWeekTextView.setText(TextUtils.join(", ", classInfo.getDayOfWeek()));
         holder.teacherNameTextView.setText(classInfo.getTeacherName());
-        holder.timeStartTextView.setText(classInfo.getTimeStringStart());
-        holder.timeEndTextView.setText(classInfo.getTimeStringEnd());
+        holder.timeStartTextView.setText(classInfo.getTimeStringStart()+ " - " +classInfo.getTimeStringEnd());
         // Lấy thông tin địa điểm từ đối tượng classInfo
         String location = classInfo.getLocation();
 

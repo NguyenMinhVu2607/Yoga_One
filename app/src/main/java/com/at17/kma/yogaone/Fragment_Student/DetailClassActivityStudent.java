@@ -20,6 +20,7 @@ import com.at17.kma.yogaone.Adapter.StudentAdapter;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.at17.kma.yogaone.ModelClassInfo.StudentInfo;
 import com.at17.kma.yogaone.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,14 +42,16 @@ public class DetailClassActivityStudent extends AppCompatActivity {
     private TextView classStatus,classRecomment;
     private TextView textDayOfWeek;
     private TextView textLocation;
+    private TextView timeTextViewStudent;
     private TextView textteacherName;
-    private Button addToClassRequest;
+    private FloatingActionButton addToClassRequest;
     private RecyclerView recyclerViewListStudent;
     private StudentAdapter listStudentAdapter;
     private boolean isActivityResumed;
     String classId;
     ImageButton backDetail;
-    ConstraintLayout layoutInfo;
+    ConstraintLayout layout_null;
+//    ConstraintLayout layoutInfo;
 
 
     @Override
@@ -58,16 +61,18 @@ public class DetailClassActivityStudent extends AppCompatActivity {
 
         // Ánh xạ các thành phần giao diện
         openBrowserButton = findViewById(R.id.openBrowserButton);
+        layout_null = findViewById(R.id.layout_null);
 
         textClassName = findViewById(R.id.textClassNameStudent);
         textClassName = findViewById(R.id.textClassNameStudent);
         classStatus = findViewById(R.id.classStatus);
         classRecomment = findViewById(R.id.classRecomment);
-        layoutInfo = findViewById(R.id.layoutInfo);
+//        layoutInfo = findViewById(R.id.layoutInfo);
         textDayOfWeek = findViewById(R.id.textDayOfWeekStudent);
         backDetail = findViewById(R.id.backDetail);
         textLocation = findViewById(R.id.textLocationStudent);
         textteacherName = findViewById(R.id.textteacherNameStudent);
+        timeTextViewStudent = findViewById(R.id.timeTextViewStudent);
         addToClassRequest = findViewById(R.id.addToClassRequest);
         recyclerViewListStudent = findViewById(R.id.recyclerviewListStudent1);
 
@@ -171,6 +176,7 @@ public class DetailClassActivityStudent extends AppCompatActivity {
         textDayOfWeek.setText("Day of Week: " + TextUtils.join(", ", classInfo.getDayOfWeek()));
         textLocation.setText("Location: " + classInfo.getLocation());
         textteacherName.setText("Name Teacher: " + classInfo.getTeacherName());
+        timeTextViewStudent .setText("Time : " + classInfo.getTimeStringStart() + " - " +classInfo.getTimeStringEnd());
 
         // Thêm mã code để hiển thị các thông tin khác nếu cần
     }
@@ -213,6 +219,9 @@ public class DetailClassActivityStudent extends AppCompatActivity {
                     Toast.makeText(DetailClassActivityStudent.this, "Đã xảy ra lỗi", Toast.LENGTH_SHORT).show();
                 });
     }
+    private boolean isStudentListEmpty(List<StudentInfo> students) {
+        return students == null || students.isEmpty();
+    }
 
     private void loadClassInfoIfVisible() {
         if (isActivityResumed) {
@@ -220,7 +229,7 @@ public class DetailClassActivityStudent extends AppCompatActivity {
             if (intent != null && intent.hasExtra("idClassSTD")) {
                 String classId = intent.getStringExtra("idClassSTD");
                 loadClassInfoFromFirestore(classId);
-                Toast.makeText(getApplicationContext(), classId, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), classId, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -230,5 +239,9 @@ public class DetailClassActivityStudent extends AppCompatActivity {
         listStudentAdapter = new StudentAdapter(students);
         recyclerViewListStudent.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewListStudent.setAdapter(listStudentAdapter);
+        if (isStudentListEmpty(students)) {
+            recyclerViewListStudent.setVisibility(View.GONE);
+            layout_null.setVisibility(View.VISIBLE);
+        }
     }
 }

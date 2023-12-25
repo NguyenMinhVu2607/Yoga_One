@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- item_class.xml -->
-<LinearLayout
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
+    android:background="@drawable/custom_itemclass_ok"
     android:orientation="vertical"
+    android:layout_margin="3dp"
     android:padding="8dp">
 
     <TextView
@@ -15,40 +15,102 @@
         android:textStyle="bold"
         android:textSize="18sp"
         android:text="Name Class"
+        android:layout_marginTop="4dp"
+        android:layout_gravity="center"
         android:textColor="@android:color/black"/>
-    <TextView
-        android:id="@+id/teacherNameTextView"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name Teacher"
-        android:textColor="@android:color/black"/>
-    <TextView
-        android:id="@+id/dayOfWeekTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="dayOfWeek"
-        android:textColor="@android:color/black"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="5dp">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/teacher" />
+        <TextView
+            android:id="@+id/teacherNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name Teacher"
+            android:layout_marginStart="10dp"
 
+            android:textColor="@android:color/black"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="5dp">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/home" />
+        <TextView
+            android:id="@+id/dayOfWeekTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="dayOfWeek"
+            android:textColor="@android:color/black"
+            android:fontFamily="@font/rem_regular"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="5dp">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/clock" />
     <TextView
         android:id="@+id/timeStartTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Time Class"
+        android:layout_marginStart="10dp"
+
         android:textColor="@android:color/black"/>
-    <TextView
-        android:id="@+id/timeEndTextView"
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Time Class"
-        android:textColor="@android:color/black"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        android:layout_marginTop="5dp">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/clock" />
+        <TextView
+            android:id="@+id/timeEndTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time Class"
+            android:layout_marginStart="10dp"
 
-    <TextView
-        android:id="@+id/locationTextView"
+            android:textColor="@android:color/black"/>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Location"
-        android:textColor="@android:color/black"/>
-
-
-
-</LinearLayout>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="5dp">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/locate" />
+        <TextView
+            android:id="@+id/locationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:layout_marginStart="10dp"
+            android:textColor="@android:color/black"/>
+    </LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

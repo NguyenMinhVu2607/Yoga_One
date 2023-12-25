@@ -3,7 +3,7 @@
     <item
         android:id="@+id/homeStudent"
         android:title="Trang chủ"
-        android:icon="@drawable/icon_home"/>
+        android:icon="@drawable/home"/>
     <item
         android:id="@+id/listClassConfirm"
         android:title="List Class"

@@ -2,6 +2,7 @@ package com.at17.kma.yogaone;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 
@@ -16,6 +17,7 @@ import com.at17.kma.yogaone.Fragment_Student.CourseFragment;
 import com.at17.kma.yogaone.Fragment_Student.HomeFragment;
 import com.at17.kma.yogaone.Fragment_Student.ListClassConfirmFragment;
 import com.at17.kma.yogaone.Fragment_Student.ProfileFragment;
+//import com.github.kwasow.bottomnavigationcircles.BottomNavigationCircles;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity
         bottomNavigationView
                 .setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.homeStudent);
+
     }
     CourseFragment firstFragment = new CourseFragment();
     HomeFragment secondFragment = new HomeFragment();
