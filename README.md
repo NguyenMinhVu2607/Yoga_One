@@ -1,4 +1,5 @@
 YOGA Studio Management App
+=======
 Giới Thiệu
 YOGA Studio Management App là một ứng dụng Android được thiết kế để hỗ trợ quản lý các hoạt động của các phòng tập YOGA. Ứng dụng giúp tối ưu hóa quá trình quản lý, đồng thời mang lại trải nghiệm thuận lợi cho người quản lý và học viên.
 
