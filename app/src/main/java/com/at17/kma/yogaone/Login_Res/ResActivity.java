@@ -107,6 +107,22 @@ public class ResActivity extends AppCompatActivity {
                                             // Xử lý lỗi khi thêm thông tin người dùng vào Firestore
                                             Log.e("TAG", "Error adding user info to Firestore.", e);
                                         });
+
+                                FirebaseUser fUser =fAuth.getCurrentUser();
+                                fUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(ResActivity.this, "Verification Email Has been Sent", Toast.LENGTH_SHORT).show();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(ResActivity.this, "Verification Email not Sent", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+
+
                             })
                             .addOnFailureListener(e -> {
                                 // Xử lý lỗi tạo tài khoản
