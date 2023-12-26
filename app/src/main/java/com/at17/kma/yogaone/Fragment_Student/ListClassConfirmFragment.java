@@ -113,7 +113,7 @@ public class ListClassConfirmFragment extends Fragment {
     private void setupRecyclerViewClickListener() {
         classAdapter.setItemClickListener(classInfo -> {
             Intent intent = new Intent(getActivity(), DetailClassActivityStudent.class);
-            intent.putExtra("idClassSTD", classInfo.getDocumentId());
+            intent.putExtra("idClassSTDCF", classInfo.getDocumentId());
             Log.d("idClass3", "" + classInfo.getDocumentId());
             startActivity(intent);
         });

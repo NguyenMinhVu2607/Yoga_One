@@ -80,8 +80,20 @@ public class DetailClassActivityStudent extends AppCompatActivity {
         Intent intent = getIntent();
         boolean isConflict = getIntent().getBooleanExtra("isConflict", false);
 
-        if (intent != null && intent.hasExtra("idClassSTD")) {
-             classId = intent.getStringExtra("idClassSTD");
+        // Check if the intent has "idClassSTDHome" extra
+        if (intent != null && intent.hasExtra("idClassSTDHome")) {
+            String idClassSTDHome = intent.getStringExtra("idClassSTDHome");
+            addToClassRequest.setVisibility(View.GONE);
+            loadClassInfoFromFirestore(idClassSTDHome);
+        } else if (intent != null && intent.hasExtra("idClassSTD")) {
+            // If "idClassSTDHome" is not present, check for "idClassSTD"
+            classId = intent.getStringExtra("idClassSTD");
+            // Gọi hàm để lấy thông tin từ Firestore
+            loadClassInfoFromFirestore(classId);
+        } else if (intent != null && intent.hasExtra("idClassSTDCF")) {
+            addToClassRequest.setVisibility(View.GONE);
+
+            classId = intent.getStringExtra("idClassSTDCF");
             // Gọi hàm để lấy thông tin từ Firestore
             loadClassInfoFromFirestore(classId);
         } else {
@@ -89,6 +101,7 @@ public class DetailClassActivityStudent extends AppCompatActivity {
             Toast.makeText(this, "Không có thông tin lớp học", Toast.LENGTH_SHORT).show();
             finish();
         }
+
         if(!isConflict){
             classStatus.setText("Bạn có thể gửi yêu cầu tham gia lớp học này ❗");
             classRecomment.setText("Click vào nút bên dưới để có thể về đội của nhà Yoga Kma❗");
