@@ -144,6 +144,7 @@ public class HomeCoachFragment extends Fragment {
     }
 
 
+
     private boolean isClassWithinSelectedDay(long startTime, long endTime, int year, int month, int dayOfMonth) {
         Calendar startCalendar = Calendar.getInstance();
         startCalendar.setTimeInMillis(startTime);
