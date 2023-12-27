@@ -36,7 +36,6 @@ public class ListStudentClassFragment extends Fragment {
         if (bundle != null) {
             String classId = bundle.getString("classId");
             loadClassInfoFromFirestore(classId);
-            Toast.makeText(getContext(), classId, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getContext(), "null", Toast.LENGTH_SHORT).show();
         }

@@ -31,6 +31,7 @@ public class DetailClassActivityCoach extends AppCompatActivity {
     private TextView textDayOfWeek;
     private TextView textLocation;
     private TextView textteacherName;
+    private TextView timeTextViewCoach;
 //    private RecyclerView recyclerViewStudents;
     private StudentRequestAdapter studentAdapter;
 ImageButton backDetailCoach;
@@ -43,7 +44,8 @@ ImageButton backDetailCoach;
         ViewPager viewPager = findViewById(R.id.viewPagerStudent);
         TabLayout tabLayout = findViewById(R.id.tabLayoutListStudent);
         textClassName = findViewById(R.id.textClassName);
-        textDayOfWeek = findViewById(R.id.textDayOfWeek);
+        textDayOfWeek = findViewById(R.id.textDayOfWeekCoach);
+        timeTextViewCoach = findViewById(R.id.timeTextViewCoach);
         textLocation = findViewById(R.id.textLocation);
         backDetailCoach = findViewById(R.id.backDetailCoach);
         textteacherName = findViewById(R.id.textteacherName);
@@ -53,15 +55,7 @@ ImageButton backDetailCoach;
                finish();
            }
        });
-//        textLocation.setOnClickListener(new View.OnClickListener() {
-//            String addresses = textLocation.getText().toString().trim();
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-//                intent.putExtra("addresses", addresses);
-//                startActivity(intent);
-//            }
-//        });
+
         DetailFragmentStudentAdapter detailFragmentStudentAdapter  = new DetailFragmentStudentAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPager.setAdapter(detailFragmentStudentAdapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -128,7 +122,8 @@ ImageButton backDetailCoach;
         textClassName.setText("Class Name: " + classInfo.getClassName());
         textDayOfWeek.setText("Day of Week: " + TextUtils.join(", ", classInfo.getDayOfWeek()));
         textLocation.setText("Location: " + classInfo.getLocation());
-        textteacherName.setText("Name Teacher: " + classInfo.getTeacherName());
+        timeTextViewCoach.setText("Time : " + classInfo.getTimeStringStart() + " - " +classInfo.getTimeStringEnd());
+            textteacherName.setText("Name Teacher: " + classInfo.getTeacherName());
 
         // Thêm mã code để hiển thị các thông tin khác nếu cần
     }

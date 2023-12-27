@@ -3,6 +3,7 @@ package com.at17.kma.yogaone.Fragment_Coach;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -13,16 +14,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.at17.kma.yogaone.AddressListActivity;
 import com.at17.kma.yogaone.Login_Res.LoginActivity;
 import com.at17.kma.yogaone.R;
 import com.at17.kma.yogaone.SplashActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProfileCoachFragment extends Fragment {
-    private Button btnLogout;
+    private CircleImageView btnLogout;
     private ImageView profileImage;
     private TextView usernameTextView, emailTextView;
+    ConstraintLayout showAddressesButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,9 +35,17 @@ public class ProfileCoachFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile_coach, container, false);
         btnLogout = view.findViewById(R.id.btnLogout);
-        profileImage = view.findViewById(R.id.profileImage);
+        profileImage = view.findViewById(R.id.profileImageCoach);
         usernameTextView = view.findViewById(R.id.usernameTextView);
         emailTextView = view.findViewById(R.id.emailTextView);
+        showAddressesButton = view.findViewById(R.id.showAddressesButton);
+        showAddressesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), AddressListActivity.class);
+                startActivity(intent);
+            }
+        });
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -43,6 +56,7 @@ public class ProfileCoachFragment extends Fragment {
         loadUserInfo();
         return view;
     }
+
     private void loadUserInfo() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {

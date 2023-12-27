@@ -28,13 +28,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="16dp"
-            android:text="Detail Class"
-            android:textColor="#FF1744"
-            app:layout_constraintBottom_toBottomOf="@+id/backDetailCoach"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/rem_extrabold"
+            android:text="YogaOne"
+            android:textColor="#D42323"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/backDetailCoach"
-            app:layout_constraintTop_toTopOf="@+id/backDetailCoach" />
+            app:layout_constraintTop_toTopOf="@+id/backDetailCoach"
+            app:layout_constraintVertical_bias="0.23"></TextView>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"
@@ -57,37 +59,108 @@
             android:id="@+id/textClassName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:fontFamily="@font/rem_bold"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal"
             android:textColor="@color/black"
-            tools:text="Tên lớp học: " />
-
-        <TextView
-            android:id="@+id/textDayOfWeek"
-            android:layout_width="match_parent"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Class Name" />
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:fontFamily="@font/rem_regular"
-            android:textColor="@color/black"
-            tools:text="Thời gian:" />
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/textLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:fontFamily="@font/rem_regular"
-            android:textColor="@color/black"
-            tools:text="Học tại: " />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/teacher" />
 
-        <TextView
-            android:id="@+id/textteacherName"
-            android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textteacherName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintTop_toTopOf="@+id/textLocationStudent"
+                tools:layout_editor_absoluteX="3dp"
+                tools:text="teacherName" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:fontFamily="@font/rem_regular"
-            android:textSize="16sp"
-            tools:text="Tên giáo viên: " />
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/appointment" />
+
+            <TextView
+                android:id="@+id/textDayOfWeekCoach"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/textteacherNameStudent"
+                tools:layout_editor_absoluteX="16dp"
+                tools:text="Day of Week" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="5dp">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/clock" />
+            <TextView
+                android:id="@+id/timeTextViewCoach"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time Class"
+                android:layout_marginStart="10dp"
+                android:textSize="16sp"
+
+                android:textColor="@android:color/black"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/locate" />
+
+            <TextView
+                android:id="@+id/textLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+
+                app:layout_constraintTop_toBottomOf="@+id/textClassNameStudent"
+                tools:layout_editor_absoluteX="16dp"
+                tools:text="Location" />
+
+        </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayoutListStudent"
@@ -95,7 +168,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:elevation="6dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="8dp"
             app:tabTextColor="@color/black"
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />

@@ -1,6 +1,8 @@
 package com.at17.kma.yogaone.Fragment_Student;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +22,9 @@ import com.at17.kma.yogaone.Adapter.StudentAdapter;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.at17.kma.yogaone.ModelClassInfo.StudentInfo;
 import com.at17.kma.yogaone.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,7 +56,8 @@ public class DetailClassActivityStudent extends AppCompatActivity {
     String classId;
     ImageButton backDetail;
     ConstraintLayout layout_null;
-//    ConstraintLayout layoutInfo;
+    LinearLayoutManager main_content;
+    LinearLayoutCompat layoutInfo;
 
 
     @Override
@@ -62,12 +68,13 @@ public class DetailClassActivityStudent extends AppCompatActivity {
         // Ánh xạ các thành phần giao diện
         openBrowserButton = findViewById(R.id.openBrowserButton);
         layout_null = findViewById(R.id.layout_null);
+//        main_content = findViewById(R.id.main_content);
 
         textClassName = findViewById(R.id.textClassNameStudent);
         textClassName = findViewById(R.id.textClassNameStudent);
         classStatus = findViewById(R.id.classStatus);
         classRecomment = findViewById(R.id.classRecomment);
-//        layoutInfo = findViewById(R.id.layoutInfo);
+        layoutInfo = findViewById(R.id.layoutInfo);
         textDayOfWeek = findViewById(R.id.textDayOfWeekStudent);
         backDetail = findViewById(R.id.backDetail);
         textLocation = findViewById(R.id.textLocationStudent);
@@ -124,12 +131,39 @@ public class DetailClassActivityStudent extends AppCompatActivity {
         addToClassRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!isConflict){
-                    sendJoinRequest(classId);
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (!user.isEmailVerified()) {
+                    Snackbar snackbar = Snackbar
+                            .make(layoutInfo, "Tài khoản của bạn chưa được xác thực ! ", Snackbar.LENGTH_LONG)
+                            .setAction("Xác thực ngay", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Toast.makeText(getApplicationContext(), "Thông tin xác thực đã được gửi thành công đến Email của bạn !", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(getApplicationContext(), "Thông tin xác thực chưa được gửi :)", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    });
+                                }
+                            });
+                    snackbar.show();
+
                 } else {
-                    Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Lớp học này đã bị trùng lịch ❗", Snackbar.LENGTH_LONG);
-                    snackbar.show();;
+                    if(!isConflict){
+                        sendJoinRequest(classId);
+                    } else {
+                        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Lớp học này đã bị trùng lịch ❗", Snackbar.LENGTH_LONG);
+                        snackbar.show();;
+                    }
                 }
+
             }
         });
         openBrowserButton.setOnClickListener(new View.OnClickListener() {

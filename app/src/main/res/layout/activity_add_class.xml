@@ -1,43 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/cardview_dark_background"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     android:layout_height="match_parent">
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="8dp"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/rem_extrabold"
+                android:text="YogaOne"
+                android:textColor="#D42323"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0.23">
+            </TextView>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/logout"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                android:src="@drawable/logored"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <EditText
             android:id="@+id/editTextClassName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:padding="6dp"
             android:hint="Tên lớp học"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:background="@drawable/input_background"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"/>
 
-        <EditText
-            android:id="@+id/editTextTeacherName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Tên giáo viên"
-            android:layout_below="@+id/editTextClassName"
-            android:layout_marginTop="16dp"
-            android:visibility="gone"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/editTextLocation"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
+            android:textColor="@color/black"
+
             android:text="Chọn cơ sở dạy học "/>
         <Spinner
             android:id="@+id/spinnerLocation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="16dp"
+            android:textColor="@color/black"
+            android:background="@drawable/input_background"
             android:entries="@array/location_array"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
@@ -55,6 +86,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/layoutTime"
         android:orientation="vertical"
+        android:paddingRight="8dp"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -66,6 +98,8 @@
             android:layout_below="@+id/editTextLocation"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
+            android:textColor="@color/black"
+
             android:text="Thời gian bắt đầu"/>
 
         <TimePicker
@@ -74,6 +108,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewStartTime"
             android:layout_marginLeft="16dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/input_background"
             android:layout_marginTop="8dp"/>
 
         <!-- Thêm EditText cho Thời gian kết thúc -->
@@ -84,6 +120,8 @@
             android:layout_below="@+id/timePickerStartTime"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
+            android:textColor="@color/black"
+
             android:text="Thời gian kết thúc"/>
 
         <TimePicker
@@ -91,6 +129,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewEndTime"
+            android:background="@drawable/input_background"
+
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"/>
         <!-- Thêm DatePicker cho Ngày bắt đầu khóa học -->
@@ -101,6 +141,8 @@
             android:layout_below="@+id/timePickerEndTime"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
+            android:textColor="@color/black"
+
             android:text="Ngày bắt đầu khóa học"/>
 
         <DatePicker
@@ -109,6 +151,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewStartDate"
             android:layout_marginLeft="16dp"
+            android:background="#515151"
+            android:layout_gravity="center_horizontal"
+
             android:layout_marginTop="8dp"/>
 
         <!-- Thêm DatePicker cho Ngày kết thúc khóa học -->
@@ -119,6 +164,8 @@
             android:layout_below="@+id/datePickerStartDate"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
+            android:textColor="@color/black"
+
             android:text="Ngày kết thúc khóa học"/>
 
         <DatePicker
@@ -127,6 +174,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewEndDate"
             android:layout_marginLeft="16dp"
+            android:layout_gravity="center_horizontal"
+            android:background="#515151"
+
             android:layout_marginTop="8dp"/>
 
         <!-- Thêm Spinner cho Thời gian học trong tuần -->
@@ -136,6 +186,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/timePickerEndTime"
             android:layout_marginTop="16dp"
+            android:textColor="@color/black"
+
             android:layout_marginLeft="16dp"
             android:text="Thời gian học trong tuần"/>
 
@@ -147,39 +199,53 @@
                 android:id="@+id/checkboxMonday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:buttonTint="#FF0000"
                 android:text="Thứ 2"/>
 
             <CheckBox
                 android:id="@+id/checkboxTuesday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:buttonTint="#FF0000"
                 android:text="Thứ 3"/>
             <CheckBox
                 android:id="@+id/checkboxWednesday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:buttonTint="#FF0000"
                 android:text="Thứ 4"/>
 
             <CheckBox
                 android:id="@+id/checkboxThursday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:buttonTint="#FF0000"
                 android:text="Thứ 5"/>
             <CheckBox
                 android:id="@+id/checkboxFriday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:buttonTint="#FF0000"
                 android:text="Thứ 6"/>
 
             <CheckBox
                 android:id="@+id/checkboxSaturday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:buttonTint="#FF0000"
                 android:text="Thứ 7"/>
             <CheckBox
                 android:id="@+id/checkboxSunday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:buttonTint="#FF0000"
                 android:text="Chủ Nhật"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -197,6 +263,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/spinnerSchedule"
             android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:text="Thêm lớp học"/>
     </androidx.appcompat.widget.LinearLayoutCompat>

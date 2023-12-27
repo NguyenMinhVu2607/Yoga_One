@@ -46,7 +46,6 @@ public class RequestStudentFragment extends Fragment {
             // Lấy giá trị từ Bundle
             String classId = bundle.getString("classId");
             Log.d("classIdRQ","classId :"+classId);
-            Toast.makeText(getContext(), classId, Toast.LENGTH_SHORT).show();
             loadStudentRequests(classId);
 //            addClassInfotoUSer(,userID);
 

@@ -20,8 +20,10 @@ import com.at17.kma.yogaone.Login_Res.LoginActivity;
 import com.at17.kma.yogaone.Login_Res.ResActivity;
 import com.at17.kma.yogaone.R;
 import com.at17.kma.yogaone.SplashActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -38,6 +40,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        listenForEmailVerification();
         ConstraintLayout showAddressesButton = view.findViewById(R.id.showAddressesButton);
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = firebaseAuth.getCurrentUser() ;
@@ -51,36 +54,7 @@ public class ProfileFragment extends Fragment {
         sendCode=view.findViewById(R.id.sendCode);
         infoVerify=view.findViewById(R.id.infoVerify);
 
-        if(!user.isEmailVerified()){
-            Log.d("Ver",""+user.isEmailVerified());
-            Toast.makeText(getContext(), "Email is Not Verify", Toast.LENGTH_SHORT).show();
-
-            sendCode.setVisibility(View.VISIBLE);
-            sendCode.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Toast.makeText(getContext(), "Verification Email Has been Sent", Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getContext(), "Verification Email not Sent", Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
-
-                }
-            });
-
-        } else {
-            infoVerify.setText("Email is Verify");
-            infoVerify.setTextColor(getResources().getColor(R.color.black));
-            Toast.makeText(getContext(), "Email is Verify", Toast.LENGTH_SHORT).show();
-        }
-
+        checkEmailVerificationStatus();
         // Đăng xuất tài khoản
         logout = view.findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +67,61 @@ public class ProfileFragment extends Fragment {
 
         return  view;
     }
+    // Trong hàm checkEmailVerificationStatus
+    private void checkEmailVerificationStatus() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            // Kiểm tra xem email đã được xác minh chưa
+            if (!user.isEmailVerified()) {
+                Log.d("Ver", "" + user.isEmailVerified());
+                Toast.makeText(getContext(), "Email is Not Verified", Toast.LENGTH_SHORT).show();
+
+                sendCode.setVisibility(View.VISIBLE);
+                sendCode.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // Gửi email xác minh
+                        user.sendEmailVerification().addOnCompleteListener(requireActivity(), new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    // Gửi email xác minh thành công
+                                    Toast.makeText(getContext(), "Thông tin xác thực đã được gửi thành công đến Email của bạn !", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    // Gửi email xác minh thất bại
+                                    Toast.makeText(getContext(), "Thông tin xác thực chưa được gửi :)", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                });
+
+            } else {
+                // Email đã được xác minh
+                sendCode.setVisibility(View.GONE);
+                infoVerify.setText("Email is Verified");
+                infoVerify.setTextColor(getResources().getColor(R.color.cpp_text));
+                Toast.makeText(getContext(), "Email is Verified", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    // Thêm hàm sau để cập nhật ngay lập tức khi xác minh email thành công
+    private void listenForEmailVerification() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            user.reload().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    // Sau khi reload, kiểm tra trạng thái xác minh mới
+                    checkEmailVerificationStatus();
+                }
+            });
+        }
+    }
+
+
     public void showAddresses() {
         // Lấy danh sách địa chỉ từ resources
 //        String[] addresses = getResources().getStringArray(R.array.location_array);
