@@ -33,7 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends Fragment {
     CircleImageView logout;
     Button sendCode;
-    TextView infoVerify;
+    TextView infoVerify,usernameTextViewStudent,emailTextViewStudent;
     FirebaseAuth firebaseAuth;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +53,8 @@ public class ProfileFragment extends Fragment {
         });
         sendCode=view.findViewById(R.id.sendCode);
         infoVerify=view.findViewById(R.id.infoVerify);
+        emailTextViewStudent=view.findViewById(R.id.emailTextViewStudent);
+        usernameTextViewStudent=view.findViewById(R.id.usernameTextViewStudent);
 
         checkEmailVerificationStatus();
         // Đăng xuất tài khoản
@@ -64,7 +66,7 @@ public class ProfileFragment extends Fragment {
                 startActivity(new Intent(getContext(), SplashActivity.class));
             }
         });
-
+        loadUserInfo();
         return  view;
     }
     // Trong hàm checkEmailVerificationStatus
@@ -121,7 +123,21 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    private void loadUserInfo() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // Load username and email
+            usernameTextViewStudent.setText(user.getDisplayName());
+            emailTextViewStudent.setText(user.getEmail());
+            Log.d("name",""+user.getDisplayName());
 
+            // Load profile image
+            // You may need to implement your own logic to load the image based on the user's ID
+            // For example, you can use Firebase Storage to store user profile images.
+            // Here, we just set a default image for illustration purposes.
+//            profileImage.setImageResource(R.drawable.icon_profile);
+        }
+    }
     public void showAddresses() {
         // Lấy danh sách địa chỉ từ resources
 //        String[] addresses = getResources().getStringArray(R.array.location_array);
