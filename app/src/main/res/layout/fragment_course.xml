@@ -28,6 +28,7 @@
         </TextView>
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/requestcreateclass"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="right"

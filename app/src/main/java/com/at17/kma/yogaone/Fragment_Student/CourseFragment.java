@@ -18,6 +18,7 @@ import com.animsh.materialsearchbar.MaterialSearchBar;
 import com.at17.kma.yogaone.Adapter.ClassAdapter;
 import com.at17.kma.yogaone.ModelClassInfo.ClassInfo;
 import com.at17.kma.yogaone.R;
+import com.at17.kma.yogaone.RequestcreateActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -31,6 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class CourseFragment extends Fragment {
 
     private RecyclerView recyclerView;
@@ -38,6 +41,7 @@ public class CourseFragment extends Fragment {
     private List<ClassInfo> classList;
     private ClassAdapter classAdapter;
     private EditText materialSearchBar;
+    CircleImageView requestcreateclass;
     private String uid;
 
     @Override
@@ -48,6 +52,14 @@ public class CourseFragment extends Fragment {
         fFirestore = FirebaseFirestore.getInstance();
         classAdapter = new ClassAdapter(classList);
 
+        requestcreateclass = view.findViewById(R.id.requestcreateclass);
+        requestcreateclass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), RequestcreateActivity.class);
+                startActivity(intent);
+            }
+        });
         materialSearchBar = view.findViewById(R.id.materialSearchBar);
         materialSearchBar.addTextChangedListener(new TextWatcher() {
             @Override

@@ -99,17 +99,17 @@
             android:layout_margin="12dp"
             app:cardCornerRadius="16dp">
             <!-- Your ListView -->
-<!--            <ListView-->
-<!--                android:id="@+id/listViewClasses"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"/>-->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewClassesCoach"
+            <ListView
+                android:id="@+id/listViewClasses"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                tools:listitem="@layout/list_item_layout"
-                />
+                android:layout_height="wrap_content"/>
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/recyclerViewClassesCoach"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@color/white"-->
+<!--                tools:listitem="@layout/list_item_layout"-->
+<!--                />-->
         </androidx.cardview.widget.CardView>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.appcompat.widget.LinearLayoutCompat>
