@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Yoga One</string>
+    <string name="app_name">Yoga App</string>
     <string name="hello_blank_fragment">hello_blank_fragment</string>
     <string-array name="location_array">
-        <item>Yoga KMA CS1 - 141 Đường Chiến Thắng, Tân Triều, Thanh Trì, Hà nội</item>
-        <item>Yoga KMA CS2 - 17A Cộng Hòa, Phường 4, Quận Tân Bình, TP. Hồ Chí Minh</item>
-        <item>Yoga KMA CS3 - 176 P. Định Công, Định Công, Hoàng Mai, Hà Nội</item>
-        <item>Yoga KMA CS4 - Thôn 4 - Xã Xuân Lam, H. Nghi Xuân, Hà Tĩnh</item>
+        <item>Yoga CS1 - 42A Đ. Phú Diễn, Phú Diễn, Bắc Từ Liêm, Hà Nội</item>
+        <item>Yoga CS2 - 238B Lê Văn Sỹ, P. 1, Q. Tân Bình, TP. Hồ Chí Minh</item>
+        <item>Yoga CS3 - 176 P. Định Công, Định Công, Hoàng Mai, Hà Nội</item>
+        <item>Yoga CS4 - Tầng 1 Chung cư N02 ,Đường Yên Hòa, Phường Yên Hòa, Cầu Giấy, Hà Nội</item>
     </string-array>
 
 </resources>

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.at17.kma.yogaone'
+    namespace 'com.hunre.dh10c6.yogaone'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.at17.kma.yogaone"
+        applicationId "com.hunre.dh10c6.yogaone"
         minSdk 29
         targetSdk 33
         versionCode 1
@@ -49,7 +49,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:24.9.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 //    implementation 'com.github.Kwasow:BottomNavigationCircles-Android:1.1-beta6'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.28'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.1'

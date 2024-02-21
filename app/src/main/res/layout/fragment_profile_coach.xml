@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:fontFamily="@font/rem_extrabold"
-            android:text="YogaOne"
+            android:text="@string/app_name"
             android:textColor="#D42323"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -123,7 +123,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_arrow_right"
-            android:text="Ấn để xem các cơ sở Yoga KMA"
+            android:text="Ấn để xem các cơ sở Yoga "
             android:textColor="@color/black"
             android:fontFamily="@font/rem_bold"
             />

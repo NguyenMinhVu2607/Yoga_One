@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:fontFamily="@font/rem_extrabold"
-            android:text="YogaOne"
+            android:text="@string/app_name"
             android:textColor="#D42323"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -86,7 +86,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Click vào nút bên dưới để có thể về đội của nhà Yoga Kma ❗" />
+                tools:text="Click vào nút bên dưới để có thể về đội của chúng tôi  ❗" />
 
             <TextView
                 android:id="@+id/textClassNameStudent"
