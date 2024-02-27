@@ -1,5 +1,7 @@
 package com.hunre.dh10c6.yogaone.Fragment_Coach;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -47,12 +49,39 @@ public class ProfileCoachFragment extends Fragment {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getContext(), SplashActivity.class));
+                showLogoutConfirmationDialog();
+//                FirebaseAuth.getInstance().signOut();
+//                startActivity(new Intent(getContext(), SplashActivity.class));
             }
         });
         loadUserInfo();
         return view;
+    }
+    private void showLogoutConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Xác nhận đăng xuất");
+        builder.setMessage("Bạn có chắc chắn muốn đăng xuất không?");
+
+        // Nếu người dùng nhấn Yes, đăng xuất và chuyển đến SplashActivity
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getContext(), SplashActivity.class));
+            }
+        });
+
+        // Nếu người dùng nhấn No, đóng dialog
+        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss(); // Đóng dialog
+            }
+        });
+
+        // Hiển thị dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void loadUserInfo() {

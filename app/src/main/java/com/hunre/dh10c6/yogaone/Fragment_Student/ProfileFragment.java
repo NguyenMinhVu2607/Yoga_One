@@ -1,5 +1,7 @@
 package com.hunre.dh10c6.yogaone.Fragment_Student;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +30,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
     CircleImageView logout;
+            ImageView editProfile_Student;
     Button sendCode;
     TextView infoVerify,usernameTextViewStudent,emailTextViewStudent;
     FirebaseAuth firebaseAuth;
@@ -46,6 +50,16 @@ public class ProfileFragment extends Fragment {
                 showAddresses();
             }
         });
+
+        editProfile_Student = view.findViewById(R.id.editProfile_Student);
+        editProfile_Student.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                 startActivity(new Intent(getContext(), EditProfileActivity.class));
+            }
+        });
+//
+
         sendCode=view.findViewById(R.id.sendCode);
         infoVerify=view.findViewById(R.id.infoVerify);
         emailTextViewStudent=view.findViewById(R.id.emailTextViewStudent);
@@ -57,12 +71,39 @@ public class ProfileFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getContext(), SplashActivity.class));
+                showLogoutConfirmationDialog();
+//                FirebaseAuth.getInstance().signOut();
+//                startActivity(new Intent(getContext(), SplashActivity.class));
             }
         });
         loadUserInfo();
         return  view;
+    }
+    private void showLogoutConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Xác nhận đăng xuất");
+        builder.setMessage("Bạn có chắc chắn muốn đăng xuất không?");
+
+        // Nếu người dùng nhấn Yes, đăng xuất và chuyển đến SplashActivity
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getContext(), SplashActivity.class));
+            }
+        });
+
+        // Nếu người dùng nhấn No, đóng dialog
+        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss(); // Đóng dialog
+            }
+        });
+
+        // Hiển thị dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
     // Trong hàm checkEmailVerificationStatus
     private void checkEmailVerificationStatus() {
@@ -87,7 +128,7 @@ public class ProfileFragment extends Fragment {
                                     Toast.makeText(getContext(), "Thông tin xác thực đã được gửi thành công đến Email của bạn !", Toast.LENGTH_SHORT).show();
                                 } else {
                                     // Gửi email xác minh thất bại
-                                    Toast.makeText(getContext(), "Thông tin xác thực chưa được gửi :)", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Thông tin xác thực chưa được gửi !", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
